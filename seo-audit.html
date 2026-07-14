@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shopify SEO Audit — CRO.STUDIO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy-deep:#0E104B;
+  --navy-panel:#161a5e;
+  --navy-panel-2:#1e2274;
+  --navy-line: rgba(247,164,0,0.14);
+  --amber:#f7a400;
+  --amber-hi:#ffc247;
+  --text-hi:#F5F6FF;
+  --text-mid:#B7BAE6;
+  --text-low:#7f83b8;
+  --radius:14px;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--navy-deep);
+  color:var(--text-hi);
+  font-family:'Inter',sans-serif;
+  overflow-x:hidden;
+  line-height:1.6;
+}
+h1,h2,h3,h4{font-family:'Sora',sans-serif; font-weight:700; letter-spacing:-0.02em;}
+.mono{font-family:'IBM Plex Mono',monospace;}
+a{color:inherit; text-decoration:none;}
+img{max-width:100%; display:block;}
+.wrap{max-width:1180px; margin:0 auto; padding:0 28px;}
+section{position:relative; padding:110px 0;}
+
+:focus-visible{outline:2px solid var(--amber); outline-offset:3px; border-radius:4px;}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important;}
+}
+
+.eyebrow{
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.14em;
+  color:var(--amber); text-transform:uppercase; margin-bottom:18px;
+}
+.eyebrow::before{content:''; width:18px; height:2px; background:var(--amber); display:inline-block; flex-shrink:0;}
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:10px;
+  background:var(--amber); color:#1a1200; font-weight:700; font-family:'Sora',sans-serif;
+  padding:15px 28px; border-radius:100px; border:none; cursor:pointer;
+  font-size:15px; transition:transform .25s ease, box-shadow .25s ease, background .25s ease;
+  box-shadow:0 0 0 0 rgba(247,164,0,.5);
+}
+.btn:hover{ background:var(--amber-hi); transform:translateY(-2px); box-shadow:0 10px 30px -6px rgba(247,164,0,.55);}
+.btn:active{ transform:translateY(0); }
+.btn-outline{ background:transparent; border:1px solid rgba(255,255,255,.22); color:var(--text-hi); }
+.btn-outline:hover{border-color:var(--amber); color:var(--amber); background:transparent; box-shadow:none;}
+
+.reveal{opacity:0; transform:translateY(28px); transition:opacity .8s ease, transform .8s ease;}
+.reveal.visible{opacity:1; transform:translateY(0);}
+
+.sec-head{max-width:620px; margin-bottom:35px;}
+.sec-head.center{max-width:640px; text-align:center;}
+.sec-head h2{font-size:clamp(26px,3vw,36px); margin-bottom:14px;}
+.sec-head p{color:var(--text-mid); font-size:15.5px;}
+
+/* ===== HEADER ===== */
+header{
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  padding:18px 0; transition:background .3s ease, padding .3s ease, border-color .3s ease;
+  border-bottom:1px solid transparent;
+}
+header.scrolled{ background:rgba(14,16,75,0.85); backdrop-filter:blur(14px); padding:12px 0; border-color:var(--navy-line);}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:16px;}
+.logo{font-family:'Sora',sans-serif; font-weight:800; font-size:20px; display:flex; align-items:center; gap:8px; flex-shrink:0;}
+.logo .dot{width:9px; height:9px; background:var(--amber); border-radius:2px; flex-shrink:0;}
+nav ul{display:flex; gap:30px; list-style:none;}
+nav a{font-size:14.5px; font-weight:500; color:var(--text-mid); transition:color .2s;}
+nav a:hover{color:var(--amber);}
+header .cta{display:flex; align-items:center; gap:18px;}
+header .btn{padding:11px 22px; font-size:14px; white-space:nowrap;}
+.burger{display:none; flex-direction:column; gap:5px; cursor:pointer; padding:6px; z-index:110;}
+.burger span{width:22px; height:2px; background:var(--text-hi); transition:transform .25s ease, opacity .25s ease;}
+.burger.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+.burger.open span:nth-child(2){ opacity:0; }
+.burger.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+
+/* ===== PAGE HERO ===== */
+.page-hero{padding:90px 0 35px; position:relative;}
+.page-hero::before{
+  content:''; position:absolute; inset:0; z-index:-1;
+  background:radial-gradient(700px 420px at 85% 0%, rgba(247,164,0,0.12), transparent 60%);
+}
+.breadcrumb{font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--text-low); margin-bottom:20px;}
+.breadcrumb a{color:var(--text-low);}
+.breadcrumb a:hover{color:var(--amber);}
+.split-2{display:grid; grid-template-columns:1.1fr 0.9fr; gap:60px; align-items:center;}
+.page-hero h1{font-size:clamp(30px,4vw,48px); line-height:1.1; max-width:600px; margin-bottom:18px;}
+.page-hero p.lead{font-size:17px; color:var(--text-mid); max-width:520px; margin-bottom:30px;}
+.hero-ctas{display:flex; gap:14px; flex-wrap:wrap; margin-bottom:38px;}
+
+/* trust row (same family as contact page stat-chip) */
+.trust-row{display:grid; grid-template-columns:repeat(3,auto); gap:28px; justify-content:start;}
+.stat-chip{ display:flex; align-items:center; gap:12px; padding:4px; border-radius:12px; transition:transform .3s ease; cursor:default; }
+.stat-chip:hover{ transform:translateY(-3px); }
+.stat-chip .ic{
+  width:38px; height:38px; flex-shrink:0; border-radius:10px;
+  background:rgba(247,164,0,.12); display:flex; align-items:center; justify-content:center;
+  transition:transform .55s cubic-bezier(.34,1.56,.64,1), background .3s ease, box-shadow .3s ease;
+}
+.stat-chip:hover .ic{ transform:rotate(360deg) scale(1.1); background:rgba(247,164,0,.24); box-shadow:0 8px 20px -6px rgba(247,164,0,.55); }
+.stat-chip:hover .ic svg *{ stroke:var(--amber-hi); }
+.stat-chip .txt strong{ display:block; font-family:'Sora',sans-serif; font-size:16px; margin-bottom:2px; }
+.stat-chip:hover .txt strong{ color:var(--amber-hi); }
+.stat-chip .txt div{ font-size:12px; color:var(--text-low); font-family:'IBM Plex Mono',monospace; white-space:nowrap; transition:color .3s ease; }
+.stat-chip:hover .txt div{ color:var(--text-mid); }
+
+/* sample finding / score card */
+.gauge-card{
+  background:linear-gradient(135deg,var(--navy-panel),var(--navy-panel-2));
+  border:1px solid var(--navy-line); border-radius:20px; padding:30px;
+  position:relative;
+}
+.gauge-card .label{font-family:'IBM Plex Mono',monospace; font-size:11.5px; text-transform:uppercase; letter-spacing:.1em; color:var(--text-low); display:flex; align-items:center; gap:8px; margin-bottom:22px;}
+.gauge-card .label::before{content:''; width:8px; height:8px; border-radius:50%; background:var(--amber); box-shadow:0 0 0 4px rgba(247,164,0,.18);}
+
+.score-row{display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;}
+.score-item{text-align:center;}
+.score-item .num{font-family:'Sora',sans-serif; font-size:30px; font-weight:800;}
+.score-item.before .num{color:var(--text-low);}
+.score-item.after .num{color:var(--amber-hi);}
+.score-item .cap{font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--text-low); text-transform:uppercase; letter-spacing:.06em; margin-top:4px;}
+.score-arrow{width:34px; height:34px; border-radius:50%; background:rgba(247,164,0,.14); display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+
+.bar-track{height:8px; border-radius:100px; background:rgba(255,255,255,.06); overflow:hidden; margin-bottom:6px;}
+.bar-fill{height:100%; border-radius:100px; background:linear-gradient(90deg,var(--amber),var(--amber-hi));}
+.bar-label{display:flex; justify-content:space-between; font-size:11.5px; color:var(--text-low); font-family:'IBM Plex Mono',monospace; margin-bottom:16px;}
+.bar-group:last-of-type .bar-label{margin-bottom:0;}
+
+.finding-note{display:flex; gap:10px; align-items:flex-start; margin-top:22px; padding-top:20px; border-top:1px dashed var(--navy-line);}
+.finding-note .dot2{width:6px; height:6px; border-radius:50%; background:var(--amber); margin-top:6px; flex-shrink:0;}
+.finding-note p{color:var(--text-mid); font-size:13px; margin:0;}
+
+/* ===== INFO GRID (What We Check) ===== */
+.info-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+.info-card{
+  border:1px solid var(--navy-line); border-radius:var(--radius);
+  padding:26px; background:rgba(255,255,255,.02); position:relative;
+  transition:border-color .25s ease, background .25s ease, transform .25s ease;
+}
+.info-card:hover{ border-color:var(--amber); background:rgba(247,164,0,.05); transform:translateY(-3px); }
+.info-card .ic{
+  width:42px; height:42px; border-radius:11px; margin-bottom:16px;
+  background:rgba(247,164,0,.12); display:flex; align-items:center; justify-content:center;
+  transition:transform .45s cubic-bezier(.34,1.56,.64,1), background .25s ease;
+}
+.info-card:hover .ic{ transform:rotate(-10deg) scale(1.06); background:rgba(247,164,0,.22); }
+.info-card:hover .ic svg *{ stroke:var(--amber-hi); }
+.info-card h4{font-size:16px; margin-bottom:8px;}
+.info-card p{color:var(--text-mid); font-size:13.5px; margin:0;}
+.info-card .idx{
+  position:absolute; top:22px; right:24px; font-family:'IBM Plex Mono',monospace;
+  font-size:11px; color:var(--text-low);
+}
+
+/* ===== PROCESS STEPS (with connecting line) ===== */
+.steps{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; position:relative;}
+.steps::before{
+  content:''; position:absolute; top:37px; left:calc(100%/6); right:calc(100%/6);
+  height:1px; background:repeating-linear-gradient(90deg, var(--navy-line) 0 10px, transparent 10px 18px);
+  z-index:0;
+}
+.step{
+  border:1px solid var(--navy-line); border-radius:var(--radius);
+  padding:28px 24px; background:var(--navy-deep); position:relative; z-index:1;
+  transition:border-color .25s ease, transform .25s ease;
+}
+.step:hover{border-color:var(--amber); transform:translateY(-3px);}
+.step .num{
+  font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--amber);
+  display:inline-block; padding:5px 11px; border:1px solid var(--navy-line); border-radius:100px;
+  margin-bottom:16px; background:var(--navy-deep);
+}
+.step h4{font-size:16px; margin-bottom:8px;}
+.step p{color:var(--text-mid); font-size:13.5px; margin:0;}
+
+/* ===== WHY US — split with tick list + floating card (contact page family) ===== */
+.why-visual{ position:relative; display:flex; align-items:center; justify-content:center; }
+.why-visual svg{ width:100%; max-width:400px; height:auto; }
+.why-copy > p{ color:var(--text-mid); font-size:15.5px; margin-bottom:28px; max-width:480px; }
+.why-list{ display:flex; flex-direction:column; gap:16px; }
+.why-item{ display:flex; align-items:flex-start; gap:14px; }
+.why-item .tick{
+  width:26px; height:26px; flex-shrink:0; border-radius:50%; margin-top:1px;
+  background:rgba(247,164,0,.14); display:flex; align-items:center; justify-content:center;
+  transition:transform .4s cubic-bezier(.34,1.56,.64,1), background .3s ease;
+}
+.why-item:hover .tick{ transform:rotate(360deg) scale(1.08); background:rgba(247,164,0,.26); }
+.why-item .tick svg{ width:13px; height:13px; }
+.why-item h4{ font-size:15px; margin-bottom:3px; }
+.why-item p{ color:var(--text-mid); font-size:13.5px; margin:0; }
+.why-float-card{
+  position:absolute; bottom:-14px; right:6%; background:var(--navy-panel);
+  border:1px solid var(--navy-line); border-radius:14px; padding:14px 18px;
+  display:flex; align-items:center; gap:10px; box-shadow:0 20px 40px -18px rgba(0,0,0,.55);
+}
+.why-float-card strong{ font-family:'Sora',sans-serif; font-size:18px; color:var(--amber); display:block; }
+.why-float-card span{ font-size:11px; color:var(--text-low); font-family:'IBM Plex Mono',monospace; }
+
+/* ===== PRICING ===== */
+.cards-3{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
+.card{
+  border:1px solid var(--navy-line); border-radius:20px; padding:34px 28px;
+  background:rgba(255,255,255,.02); display:flex; flex-direction:column; position:relative;
+  transition:border-color .25s ease, transform .25s ease;
+}
+.card:hover{transform:translateY(-4px);}
+.card.featured{
+  background:linear-gradient(135deg,var(--navy-panel),var(--navy-panel-2));
+  border-color:rgba(247,164,0,.4);
+  box-shadow:0 20px 50px -22px rgba(247,164,0,.35);
+}
+.card .tag{
+  position:absolute; top:-13px; left:28px; background:var(--amber); color:#1a1200;
+  font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; padding:5px 14px;
+  border-radius:100px; letter-spacing:.04em;
+}
+.card h3{font-size:19px; margin-bottom:6px;}
+.card .desc{color:var(--text-mid); font-size:13.5px; margin-bottom:18px;}
+.card .price{font-family:'Sora',sans-serif; font-size:38px; font-weight:800; color:var(--amber-hi); margin-bottom:6px;}
+.card .price-sub{color:var(--text-low); font-size:12.5px; font-family:'IBM Plex Mono',monospace; margin-bottom:22px;}
+.card ul{list-style:none; display:flex; flex-direction:column; gap:12px; margin-bottom:28px; flex:1;}
+.card ul li{display:flex; align-items:flex-start; gap:10px; font-size:14px; color:var(--text-mid);}
+.card ul li::before{
+  content:''; width:16px; height:16px; flex-shrink:0; margin-top:3px; border-radius:50%;
+  background:rgba(247,164,0,.16);
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f7a400' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'/></svg>");
+  background-repeat:no-repeat; background-position:center; background-size:9px;
+}
+.card .btn{width:100%;}
+
+.guarantee-strip{
+  margin-top:34px; display:flex; align-items:center; justify-content:center; gap:12px;
+  border:1px dashed var(--navy-line); border-radius:100px; padding:14px 26px;
+  max-width:560px; margin-left:auto; margin-right:auto;
+}
+.guarantee-strip .ic{width:30px; height:30px; border-radius:50%; background:rgba(247,164,0,.14); display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+.guarantee-strip p{font-size:13.5px; color:var(--text-mid);}
+.guarantee-strip strong{color:var(--text-hi);}
+
+/* ===== FAQ (answers-box style, matches contact page) ===== */
+.answers-box{
+  border:1px solid var(--navy-line); border-radius:24px; padding:50px;
+  display:grid; grid-template-columns:0.75fr 1.25fr; gap:50px; align-items:start;
+  background:rgba(255,255,255,.015);
+}
+.answers-head h2{ font-size:26px; margin-bottom:0; }
+.answers-head .underline{ width:46px; height:3px; background:var(--amber); border-radius:4px; margin-top:14px; }
+.answers-head p{ color:var(--text-mid); font-size:14px; margin-top:14px; }
+
+.faq-list{max-width:760px;}
+.faq-item{border-bottom:1px solid var(--navy-line);}
+.faq-item:first-child{border-top:none;}
+.faq-q{padding:20px 4px; display:flex; justify-content:space-between; align-items:center; gap:16px; cursor:pointer; font-family:'Sora',sans-serif; font-weight:600; font-size:15.5px;}
+.faq-q .plus{font-size:20px; color:var(--amber); transition:transform .3s ease; flex-shrink:0;}
+.faq-item.open .plus{transform:rotate(45deg);}
+.faq-a{max-height:0; overflow:hidden; transition:max-height .35s ease;}
+.faq-a p{padding:0 4px 20px; color:var(--text-mid); font-size:14px; max-width:640px;}
+
+/* ===== FINAL CTA BOX ===== */
+.contact-box{
+  background:linear-gradient(135deg,var(--navy-panel),var(--navy-panel-2));
+  border:1px solid var(--navy-line); border-radius:24px;
+  position:relative;
+}
+.cta-box{padding:64px 70px; display:flex; align-items:center; justify-content:space-between; gap:40px; flex-wrap:wrap;}
+.cta-box .copy h2{font-size:clamp(24px,3vw,30px); margin-bottom:10px; max-width:440px;}
+.cta-box .copy p{color:var(--text-mid); font-size:15px;}
+.cta-box .side{display:flex; flex-direction:column; align-items:flex-start; gap:14px; flex-shrink:0;}
+.cta-box .side .mini{color:var(--text-low); font-family:'IBM Plex Mono',monospace; font-size:12px;}
+
+footer{border-top:1px solid var(--navy-line); padding:70px 0 30px;}
+.foot-grid{display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; margin-bottom:50px;}
+.foot-grid h5{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--amber); text-transform:uppercase; letter-spacing:.08em; margin-bottom:18px;}
+.foot-grid ul{list-style:none; display:flex; flex-direction:column; gap:11px;}
+.foot-grid ul a{color:var(--text-mid); font-size:14px;}
+.foot-grid ul a:hover{color:var(--amber);}
+.foot-bottom{display:flex; justify-content:space-between; align-items:center; padding-top:26px; border-top:1px solid var(--navy-line); color:var(--text-low); font-size:13px; flex-wrap:wrap; gap:14px;}
+.socials{display:flex; gap:14px;}
+.socials a{width:34px; height:34px; border:1px solid var(--navy-line); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; color:var(--text-mid); transition:border-color .2s, color .2s;}
+.socials a:hover{border-color:var(--amber); color:var(--amber);}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media(max-width:1024px){
+  .wrap{ padding:0 24px; }
+  .info-grid, .steps, .cards-3{ grid-template-columns:repeat(2,1fr); }
+  .steps::before{ display:none; }
+  .answers-box{ padding:40px; grid-template-columns:1fr 1.4fr; gap:36px; }
+}
+
+@media(max-width:860px){
+  section{ padding:80px 0; }
+  .page-hero{ padding:130px 0 60px; }
+  .split-2{ grid-template-columns:1fr; gap:36px; }
+  .page-hero h1, .page-hero p.lead{ max-width:100%; }
+
+  .info-grid, .steps, .cards-3{ grid-template-columns:1fr; }
+  .answers-box{ grid-template-columns:1fr; gap:28px; padding:36px; }
+
+  .why-grid{ grid-template-columns:1fr !important; gap:40px; }
+  .why-visual{ order:-1; max-width:320px; margin:0 auto; }
+  .why-float-card{ right:50%; transform:translateX(50%); }
+
+  .cta-box{ padding:44px 30px; flex-direction:column; text-align:center; }
+  .cta-box .side{ align-items:center; width:100%; }
+  .cta-box .side .btn{ width:100%; }
+
+  nav{display:none;}
+  .burger{display:flex;}
+
+  .foot-grid{grid-template-columns:1fr 1fr; gap:32px;}
+  .split-2 {
+    display: flex;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 60px;
+    align-items: center;
+    flex-direction: column-reverse;
+}
+}
+
+@media(max-width:640px){
+  .wrap{ padding:0 20px; }
+  section{ padding:60px 0; }
+  .page-hero{ padding:110px 0 44px; }
+  .hero-ctas{flex-direction:column; align-items:stretch;}
+  .hero-ctas .btn{width:100%;}
+  .trust-row{ grid-template-columns:repeat(2,auto); gap:16px 20px; }
+
+  .answers-box{ padding:26px; border-radius:20px; }
+  .faq-q{ font-size:14.5px; }
+  .guarantee-strip{ flex-direction:column; text-align:center; border-radius:20px; }
+  header .cta .btn{ padding:9px 16px; font-size:13px; }
+  .split-2 {
+    display: flex;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 60px;
+    align-items: center;
+    flex-direction: column-reverse;
+}
+}
+
+@media(max-width:420px){
+  .wrap{ padding:0 16px; }
+  .page-hero h1{ font-size:26px; }
+  .page-hero p.lead{ font-size:15px; }
+  .trust-row{ grid-template-columns:1fr; gap:14px; }
+  .gauge-card{ padding:22px; }
+  .cta-box{ padding:32px 20px; }
+  header .cta{ display:none; }
+  .split-2 {
+    display: flex;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 60px;
+    align-items: center;
+    flex-direction: column-reverse;
+}
+}
+#covered {
+   padding:30px 0px;
+}
+.why-custm {
+   padding:30px 0px;
+}
+.process-custm {
+padding:30px 0px;
+}
+.price-custm {
+padding:30px 0px;
+}
+.cta-custm {
+padding:30px 0px;
+}
+</style>
+</head>
+<body>
+
+<header id="siteHeader">
+  <div class="wrap">
+    <a href="index.html" class="logo"><span class="dot"></span>CRO<span style="color:var(--amber)">.STUDIO</span></a>
+    <nav>
+      <ul>
+        <li><a href="cro-audit.html">CRO Audit</a></li>
+        <li><a href="seo-audit.html">SEO Audit</a></li>
+        <li><a href="site-speed-audit.html">Site Speed Audit</a></li>
+        <li><a href="retainers.html">Retainers</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="cta"><a href="contact.html" class="btn">Get Your Audit</a></div>
+    <button class="burger" id="burgerBtn" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="page-hero">
+  <div class="wrap split-2">
+    <div>
+      <div class="breadcrumb reveal"><a href="index.html">Home</a> / SEO Audit</div>
+      <div class="eyebrow reveal">Shopify SEO Audit</div>
+      <h1 class="reveal">Complete Shopify SEO Audit</h1>
+      <p class="lead reveal">A strong Shopify store needs more than great products—it needs to be visible in search results. Our Shopify SEO Audit identifies technical issues, on-page SEO gaps, site structure problems, and performance factors that limit your rankings. Performed manually by Shopify SEO specialists, you'll receive a clear, prioritized action plan to improve search visibility, increase organic traffic, and drive long-term ecommerce growth.</p>
+      <div class="hero-ctas reveal">
+        <a href="contact.html" class="btn">Get Your Shopify SEO Audit</a>
+        <a href="#covered" class="btn btn-outline">See What's Included</a>
+      </div>
+
+      <div class="trust-row reveal">
+        <div class="stat-chip">
+          <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f7a400" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></div>
+          <div class="txt"><strong>24hr</strong><div>Comprehensive Audit Delivery</div></div>
+        </div>
+        <div class="stat-chip">
+          <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f7a400" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><path d="M7 15l4-6 4 3 5-8"></path></svg></div>
+          <div class="txt"><strong>500+</strong><div>Shopify Stores Reviewed</div></div>
+        </div>
+        <div class="stat-chip">
+          <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f7a400" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7v6c0 5 4 8 9 9 5-1 9-4 9-9V7z"></path></svg></div>
+          <div class="txt"><strong>Shopify</strong><div>Exclusive Focus</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="gauge-card reveal">
+      <div class="label">Sample Store Score</div>
+
+      <div class="score-row">
+        <div class="score-item before">
+          <div class="num">42</div>
+          <div class="cap">Before</div>
+        </div>
+        <div class="score-arrow">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f7a400" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </div>
+        <div class="score-item after">
+          <div class="num">88</div>
+          <div class="cap">After Fixes</div>
+        </div>
+      </div>
+
+      <div class="bar-group">
+        <div class="bar-label"><span>Indexation Health</span><span>91%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:91%"></div></div>
+      </div>
+      <div class="bar-group">
+        <div class="bar-label"><span>On-Page Coverage</span><span>78%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:78%"></div></div>
+      </div>
+      <div class="bar-group">
+        <div class="bar-label"><span>AI Search Readiness</span><span>64%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:64%"></div></div>
+      </div>
+
+      <div class="finding-note">
+        <div class="dot2"></div>
+        <p>Based on a real audit — 240+ duplicate collection URLs were deindexed, lifting crawl efficiency within 3 weeks.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHAT WE CHECK ===== -->
+<section id="covered">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">What's Included</div>
+      <h2>What's Included in Our SEO Audit</h2>
+      <p>A successful Shopify SEO strategy goes far beyond optimizing page titles and adding keywords. Search engines evaluate hundreds of technical and content-related factors before deciding how your products and collections should rank.
+</p>
+    </div>
+    <div class="info-grid">
+      <div class="info-card reveal">
+        <span class="idx">01</span>
+        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f7a400" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"></path></svg></div>
+        <h4>Site Architecture & Crawlability</h4><p>A strong website structure helps search engines discover, crawl, and understand every important page on your Shopify store. Poor navigation, duplicate URLs, broken links, unnecessary redirects, and crawl errors can reduce visibility and waste valuable crawl budget.</p>
+      </div>
+      <div class="info-card reveal">
+        <span class="idx">02</span>
+        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f7a400" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg></div>
+        <h4>On-Page SEO Optimization</h4><p>Every page on your Shopify store should clearly communicate its purpose to both search engines and customers. We review every critical on-page SEO element to improve keyword relevance, click-through rates, and search visibility.</p>
+      </div>
+      <div class="info-card reveal">
+        <span class="idx">03</span>
+        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f7a400" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect></svg></div>
+        <h4>Structured Data & Schema Markup</h4><p>Schema markup helps search engines better understand your products, reviews, pricing, breadcrumbs, and business information. Proper implementation can improve rich search results while increasing visibility across Google and AI-powered search experiences.</p>
+      </div>
+      <div class="info-card reveal">
+        <span class="idx">04</span>
+        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f7a400" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></div>
+        <h4>Keyword & Content Gap Analysis</h4><p>Ranking higher requires more than technical optimization. Your content must answer customer questions while targeting valuable search intent.</p>
+      </div>
+      <div class="info-card reveal">
+        <span class="idx">05</span>
+        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f7a400" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 1 4 4c0 1.5-.8 2.4-1.6 3.2-.6.6-1.4 1.3-1.4 2.3v.5H10v-.5c0-1 .8-1.7 1.4-2.3C12.2 8.4 13 7.5 13 6a4 4 0 0 0-4-4"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg></div>
+        <h4>AI Search Optimization</h4><p>Search is changing rapidly with AI-powered platforms becoming an important discovery channel. We evaluate whether your Shopify content is structured clearly enough for AI systems to understand, summarize, and recommend your products.</p>
+      </div>
+      <div class="info-card reveal">
+        <span class="idx">06</span>
+        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f7a400" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polyline></svg></div>
+        <h4>Core Web Vitals & Technical Performance</h4><p>Website speed and technical performance influence both user experience and search rankings. We identify performance bottlenecks that reduce crawl efficiency, increase bounce rates, and negatively affect conversions.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROCESS ===== -->
+<section class="process-custm">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Process</div>
+      <h2>The 6-step SEO audit process</h2>
+      <p>A clear, structured process so you know exactly what happens after you sign up.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><span class="num">01</span><h4>Crawl & Index Review</h4><p>Full site crawl to find indexation and duplication issues.</p></div>
+      <div class="step reveal"><span class="num">02</span><h4>On-Page Audit</h4><p>Titles, meta tags, and heading structure across key pages.</p></div>
+      <div class="step reveal"><span class="num">03</span><h4>Technical Audit</h4><p>Site speed, mobile usability, and structured data checks.</p></div>
+      <div class="step reveal"><span class="num">04</span><h4>Content Gap Analysis</h4><p>Keyword opportunities mapped against competitor rankings.</p></div>
+      <div class="step reveal"><span class="num">05</span><h4>AI Visibility Check</h4><p>How discoverable your products are to AI-powered search.</p></div>
+      <div class="step reveal"><span class="num">06</span><h4>Full Report</h4><p>A prioritized 90-day action plan, delivered in 24 hours.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHY US ===== -->
+<section class="why-custm">
+  <div class="wrap">
+    <div class="split-2 why-grid">
+      <div class="why-visual reveal">
+        <svg viewBox="0 0 380 380" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="190" cy="190" rx="150" ry="130" fill="none" stroke="var(--navy-line)" stroke-width="2" stroke-dasharray="6 8"></ellipse>
+          <rect x="90" y="90" width="200" height="150" rx="16" style="fill:var(--navy-panel-2); stroke:var(--navy-line);"></rect>
+          <circle cx="115" cy="116" r="5" style="fill:var(--amber)"></circle>
+          <circle cx="133" cy="116" r="5" style="fill:rgba(255,255,255,.2)"></circle>
+          <circle cx="151" cy="116" r="5" style="fill:rgba(255,255,255,.2)"></circle>
+          <rect x="108" y="140" width="80" height="8" rx="4" style="fill:rgba(255,255,255,.12)"></rect>
+          <rect x="108" y="160" width="164" height="6" rx="3" style="fill:rgba(255,255,255,.08)"></rect>
+          <rect x="108" y="174" width="140" height="6" rx="3" style="fill:rgba(255,255,255,.08)"></rect>
+          <rect x="108" y="198" width="50" height="26" rx="6" style="fill:rgba(247,164,0,.16)"></rect>
+          <rect x="166" y="198" width="50" height="26" rx="6" style="fill:rgba(255,255,255,.06)"></rect>
+          <rect x="224" y="198" width="48" height="26" rx="6" style="fill:rgba(255,255,255,.06)"></rect>
+          <circle cx="290" cy="100" r="4" style="fill:var(--amber)"></circle>
+          <circle cx="80" cy="270" r="5" style="fill:rgba(255,255,255,.3)"></circle>
+        </svg>
+        <div class="why-float-card">
+          <strong>+46 pts</strong>
+          <span>Avg. Score Lift</span>
+        </div>
+      </div>
+
+      <div class="why-copy">
+        <div class="eyebrow reveal">Why CRO.STUDIO</div>
+        <h2 class="reveal">Built only for Shopify — not bolted on</h2>
+        <p class="reveal">Generic SEO tools miss how Shopify handles collections, variants, and canonical URLs. We only work inside Shopify, so nothing gets lost in translation.</p>
+        <div class="why-list">
+          <div class="why-item reveal">
+            <div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#f7a400" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+            <div><h4>Shopify-native audits</h4><p>Every check is mapped to how Shopify actually renders and indexes pages.</p></div>
+          </div>
+          <div class="why-item reveal">
+            <div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#f7a400" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+            <div><h4>Prioritized, not just listed</h4><p>Every finding is ranked by effort vs. impact, so you fix what matters first.</p></div>
+          </div>
+          <div class="why-item reveal">
+            <div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#f7a400" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+            <div><h4>Ready for AI search</h4><p>We check how well your products can be understood and cited by AI assistants.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICING ===== -->
+<section class="price-custm">
+  <div class="wrap">
+    <div class="sec-head center reveal" style="margin-left:auto; margin-right:auto;">
+      <div class="eyebrow">Pricing</div>
+      <h2>Choose the depth you need</h2>
+      <p>One-time audits, scoped to how deep you want us to dig.</p>
+    </div>
+    <div class="cards-3">
+      <div class="card reveal">
+        <h3>Essentials</h3>
+        <p class="desc">A focused technical + on-page check</p>
+        <div class="price">$399</div>
+        <div class="price-sub">One-time · Delivered in 48 hrs</div>
+        <ul>
+          <li>Crawl & indexation review</li>
+          <li>On-page title & meta audit</li>
+          <li>Core Web Vitals snapshot</li>
+          <li>Top 10 priority fixes</li>
+        </ul>
+        <a href="contact.html" class="btn btn-outline">Get Started</a>
+      </div>
+
+      <div class="card featured reveal">
+        <div class="tag">Most Popular</div>
+        <h3>Shopify SEO Audit</h3>
+        <p class="desc">Technical + on-page + AI-search review</p>
+        <div class="price">$699</div>
+        <div class="price-sub">One-time · Delivered in 24 hrs</div>
+        <ul>
+          <li>Technical SEO deep-dive</li>
+          <li>On-page & schema review</li>
+          <li>AI-visibility assessment</li>
+          <li>90-day action plan</li>
+          <li>Delivered in 24 hours</li>
+        </ul>
+        <a href="contact.html" class="btn">Get Your Audit</a>
+      </div>
+
+      <div class="card reveal">
+        <h3>Full Site + Content</h3>
+        <p class="desc">Everything, plus a content roadmap</p>
+        <div class="price">$1,199</div>
+        <div class="price-sub">One-time · Delivered in 72 hrs</div>
+        <ul>
+          <li>Everything in SEO Audit</li>
+          <li>Competitor content gap map</li>
+          <li>Keyword & topic roadmap</li>
+          <li>1:1 walkthrough call</li>
+        </ul>
+        <a href="contact.html" class="btn btn-outline">Get Started</a>
+      </div>
+    </div>
+
+    <div class="guarantee-strip reveal">
+      <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f7a400" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11.5 14.5 16 9.5"></polyline></svg></div>
+      <p><strong>Not useful, full refund.</strong> If the audit doesn't surface at least 3 actionable fixes, we'll refund you — no questions asked.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section id="faq" style="padding:35px 0px; ">
+  <div class="wrap">
+    <div class="answers-box reveal">
+      <div class="answers-head">
+        <div class="eyebrow">FAQ</div>
+        <h2>Questions about the SEO audit</h2>
+        <div class="underline"></div>
+        <p>Still unsure? These cover the most common questions before you get started.</p>
+      </div>
+
+      <div class="faq-list">
+        <div class="faq-item reveal">
+          <div class="faq-q">How is this different from a generic SEO audit? <span class="plus">+</span></div>
+          <div class="faq-a"><p>It's built specifically around how Shopify structures collections, variants, and URLs — issues generic tools miss.</p></div>
+        </div>
+        <div class="faq-item reveal">
+          <div class="faq-q">Will you write the content for me? <span class="plus">+</span></div>
+          <div class="faq-a"><p>The audit identifies content gaps and priorities; content production can be added through a retainer.</p></div>
+        </div>
+        <div class="faq-item reveal">
+          <div class="faq-q">How soon will rankings improve? <span class="plus">+</span></div>
+          <div class="faq-a"><p>Technical fixes often show early movement within weeks; content and authority gains typically take longer.</p></div>
+        </div>
+        <div class="faq-item reveal">
+          <div class="faq-q">What if the audit finds nothing wrong? <span class="plus">+</span></div>
+          <div class="faq-a"><p>Rare, but if we can't surface at least 3 meaningful fixes, you get a full refund — see our guarantee above.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FINAL CTA ===== -->
+<section class="cta-custm">
+  <div class="wrap">
+    <div class="contact-box cta-box reveal">
+      <div class="copy">
+        <h2>Find out what's holding your rankings back</h2>
+        <p>Get your full SEO audit delivered in 24 hours.</p>
+      </div>
+      <div class="side">
+        <a href="contact.html" class="btn">Get Your Shopify SEO Audit</a>
+        <span class="mini">Backed by our fix-or-refund guarantee</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="index.html" class="logo" style="margin-bottom:14px;"><span class="dot"></span>CRO<span style="color:var(--amber)">.STUDIO</span></a>
+        <p style="color:var(--text-mid); font-size:14px; max-width:280px;">You might need a decent Shopify CRO partner in the future — let's connect.</p>
+      </div>
+      <div>
+        <h5>Audits</h5>
+        <ul>
+          <li><a href="cro-audit.html">CRO Audit</a></li>
+          <li><a href="seo-audit.html">SEO Audit</a></li>
+          <li><a href="site-speed-audit.html">Site Speed Audit</a></li>
+          <li><a href="retainers.html">Retainers</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="retainers.html">Retainers</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Resources</h5>
+        <ul>
+          <li><a href="index.html#faq">FAQ</a></li>
+          <li><a href="contact.html">Free Quote</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© 2026 CRO.STUDIO. All rights reserved.</div>
+      <div class="socials"><a href="#">in</a><a href="#">ig</a><a href="#">x</a><a href="#">fb</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Header scrolled state
+const header = document.getElementById('siteHeader');
+if (header) {
+  const onScroll = () => {
+    if (window.scrollY > 10) header.classList.add('scrolled');
+    else header.classList.remove('scrolled');
+  };
+  window.addEventListener('scroll', onScroll);
+  onScroll();
+}
+
+// Scroll reveal
+const revealEls = document.querySelectorAll('.reveal');
+if (revealEls.length) {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach((el) => io.observe(el));
+}
+
+// FAQ accordion
+document.querySelectorAll('.faq-item').forEach((item) => {
+  const q = item.querySelector('.faq-q');
+  const a = item.querySelector('.faq-a');
+  if (!q || !a) return;
+  q.addEventListener('click', () => {
+    const isOpen = item.classList.contains('open');
+    item.closest('.faq-list')?.querySelectorAll('.faq-item.open').forEach((openItem) => {
+      if (openItem !== item) {
+        openItem.classList.remove('open');
+        openItem.querySelector('.faq-a').style.maxHeight = null;
+      }
+    });
+    if (isOpen) {
+      item.classList.remove('open');
+      a.style.maxHeight = null;
+    } else {
+      item.classList.add('open');
+      a.style.maxHeight = a.scrollHeight + 'px';
+    }
+  });
+});
+
+// Mobile nav toggle
+const burger = document.getElementById('burgerBtn');
+const nav = document.querySelector('nav');
+if (burger && nav) {
+  burger.addEventListener('click', () => {
+    const isOpen = burger.classList.toggle('open');
+    burger.setAttribute('aria-expanded', String(isOpen));
+    if (isOpen) {
+      nav.style.display = 'flex';
+      nav.style.flexDirection = 'column';
+      nav.style.position = 'fixed';
+      nav.style.top = '64px';
+      nav.style.left = '0';
+      nav.style.right = '0';
+      nav.style.background = 'rgba(14,16,75,0.98)';
+      nav.style.padding = '20px 28px';
+      nav.style.gap = '16px';
+      nav.style.borderBottom = '1px solid var(--navy-line)';
+      nav.querySelector('ul').style.flexDirection = 'column';
+      nav.querySelector('ul').style.gap = '16px';
+    } else {
+      nav.style.display = 'none';
+    }
+  });
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 860) {
+      nav.removeAttribute('style');
+      burger.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
+</script>
+</body>
+</html>

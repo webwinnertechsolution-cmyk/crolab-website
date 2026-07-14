@@ -1,0 +1,803 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0E104B;
+    --panel:#1e2274;
+    --accent:#f7a400;
+    --accent-soft: rgba(247,164,0,.14);
+    --accent-glow: rgba(247,164,0,.38);
+    --line: rgba(255,255,255,.10);
+    --line-soft: rgba(255,255,255,.06);
+    --white:#ffffff;
+    --lav:#b9bce2;
+    --mid:#8b8fc4;
+    --dim:#5c60a0;
+    --r-hard:8px;
+    --r-md:16px;
+    --ff-d:'Sora', sans-serif;
+    --ff-b:'Inter', sans-serif;
+    --ff-m:'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--bg); color:var(--lav);
+    font-family:var(--ff-b); -webkit-font-smoothing:antialiased;
+    overflow-x:hidden; width:100%;
+  }
+  .cls-cm{max-width:1180px; margin:0 auto; padding:25px 0px;}
+  a{color:inherit; text-decoration:none;}
+  ul{margin:0; padding:0; list-style:none;}
+  h1,h2,h3{font-family:var(--ff-d); color:var(--white); margin:0;}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
+
+  .cls-o{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image: radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 26px 26px;
+    mask-image: radial-gradient(1000px 700px at 26% 0%, black, transparent 72%);
+  }
+  section{position:relative; z-index:1;}
+
+  .cls-bc{ animation: splPageIn 1s cubic-bezier(.16,.8,.28,1) both; }
+  @keyframes splPageIn{
+    0%{ opacity:0; transform: translateY(10px); filter: blur(6px); }
+    100%{ opacity:1; transform:none; filter: blur(0); }
+  }
+  .cls-o{ animation: splFade 1.6s ease-out both; }
+  @keyframes splFade{ 0%{opacity:0;} 100%{opacity:1;} }
+
+  .cls-p{
+    display:inline-flex; align-items:center; justify-content:center; gap:9px;
+    font-family:var(--ff-d); font-weight:600; font-size:14.5px;
+    padding:14px 26px; border-radius:var(--r-hard); border:1px solid transparent;
+    cursor:pointer; transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+  }
+  .cls-s{
+    background:var(--accent); color:#241400;
+    box-shadow:0 12px 26px -12px var(--accent-glow);
+  }
+  .cls-s:hover{transform:translateY(-2px); box-shadow:0 18px 34px -10px var(--accent-glow);}
+  .cls-r{
+    background:transparent; color:var(--white); border-color:rgba(255,255,255,.22);
+  }
+  .cls-r:hover{border-color:var(--accent); color:var(--accent);}
+  .cls-q{transition:transform .25s ease;}
+  .cls-p:hover .cls-q{transform:translateX(3px);}
+
+  .cls-ag{ display:inline-flex; align-items:center; gap:8px; margin-bottom:18px; }
+  .cls-ag span{ font-family:var(--ff-m); font-size:11.5px; letter-spacing:.14em; color:var(--accent); text-transform:uppercase; }
+  .cls-ag .cls-av{
+    width:7px; height:7px; border-radius:50%; background:var(--accent);
+    box-shadow:0 0 0 0 var(--accent-glow); animation:splPulse 1.8s ease-out infinite;
+  }
+  @keyframes splPulse{
+    0%{ box-shadow:0 0 0 0 var(--accent-glow); }
+    70%{ box-shadow:0 0 0 8px rgba(247,164,0,0); }
+    100%{ box-shadow:0 0 0 0 rgba(247,164,0,0); }
+  }
+
+  .cls-an{padding:clamp(48px,9vw,88px) 0 clamp(36px,6vw,60px);}
+  .cls-ap{ display:grid; grid-template-columns:1.08fr .92fr; gap:clamp(30px,5vw,56px); align-items:center; }
+  .cls-aa{font-family:var(--ff-m); font-size:12px; color:var(--dim); margin-bottom:clamp(18px,3vw,26px);}
+  .cls-aa a:hover{color:var(--accent);}
+
+  .cls-as{
+    font-size:clamp(30px,6.2vw,54px); font-weight:600; line-height:1.1;
+    letter-spacing:-.015em; margin-bottom:20px; max-width:640px;
+  }
+  .cls-as em{ font-style:normal; color:var(--accent); }
+  .cls-aq{font-size:clamp(14.5px,2.4vw,16.5px); line-height:1.75; max-width:480px; margin-bottom:30px;}
+  .cls-ao{display:flex; gap:14px; flex-wrap:cls-cn; margin-bottom:30px;}
+  .cls-ao .cls-p{flex:0 0 auto;}
+
+  .cls-ce{ display:flex; gap:clamp(20px,5vw,36px); flex-wrap:cls-cn; }
+  .cls-cb{ font-family:var(--ff-m); }
+  .cls-cb .cls-cd{
+    display:block; font-size:clamp(20px,3.6vw,26px); font-weight:600; color:var(--accent);
+    font-family:var(--ff-d); line-height:1.1;
+  }
+  .cls-cb .cls-cc{ font-size:11px; color:var(--dim); text-transform:uppercase; letter-spacing:.05em; }
+
+  .cls-ar{ display:flex; gap:28px; font-family:var(--ff-m); font-size:12px; color:var(--dim); flex-wrap:cls-cn; margin-top:26px; padding-top:26px; border-top:1px solid var(--line-soft); }
+  .cls-ar b{color:var(--white); font-weight:600;}
+
+  .cls-bg{
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--r-md);
+    padding:24px 24px 22px;
+  }
+  .cls-bh{
+    display:flex; justify-content:space-between; align-items:center;
+    font-family:var(--ff-m); font-size:11px; color:var(--dim); letter-spacing:.06em;
+    text-transform:uppercase; margin-bottom:22px;
+  }
+  .cls-bh b{color:var(--white); font-family:var(--ff-b); text-transform:none; letter-spacing:0; font-size:13px;}
+
+  .cls-ca{ display:flex; align-items:flex-start; margin-bottom:26px; }
+  .cls-bx{ display:flex; flex-direction:column; align-items:center; gap:10px; width:64px; flex:0 0 auto; }
+  .cls-by{
+    width:14px; height:14px; border-radius:50%; background:rgba(255,255,255,.12);
+    border:2px solid rgba(255,255,255,.18); transition:background .4s ease, border-color .4s ease, box-shadow .4s ease;
+  }
+  .cls-bx.cls-ae .cls-by{ background:var(--accent); border-color:var(--accent); }
+  .cls-bx.cls-j .cls-by{
+    background:var(--accent); border-color:var(--accent);
+    box-shadow:0 0 0 5px var(--accent-soft);
+  }
+  .cls-bz{ font-family:var(--ff-m); font-size:10px; color:var(--dim); text-align:center; letter-spacing:.02em; transition:color .4s ease; line-height:1.3; }
+  .cls-bx.cls-ae .cls-bz, .cls-bx.cls-j .cls-bz{ color:var(--white); }
+
+  .cls-bv{ flex:1; height:2px; background:rgba(255,255,255,.12); margin:6px -4px 0; position:relative; top:1px; overflow:hidden; border-radius:2px; }
+  .cls-bw{ height:100%; width:0%; background:var(--accent); transition:width .5s ease; }
+
+  .cls-ci{ display:flex; flex-direction:column; gap:14px; }
+  .cls-cg{ }
+  .cls-ch{ display:flex; justify-content:space-between; font-family:var(--ff-m); font-size:11.5px; margin-bottom:7px; }
+  .cls-ch span:first-child{ color:var(--lav); }
+  .cls-ch span:last-child{ color:var(--dim); }
+  .cls-ch span.cls-af{ color:var(--accent); }
+  .cls-m{ height:6px; border-radius:4px; background:rgba(255,255,255,.08); overflow:hidden; }
+  .cls-n{ height:100%; width:0%; background:linear-gradient(90deg, var(--accent), #ffcf70); border-radius:4px; transition:width 1.1s cubic-bezier(.2,.7,.2,1); }
+
+  .cls-ck{padding:8px 0 6px;}
+  .cls-ck .cls-cm{ display:flex; align-items:center; gap:18px; font-family:var(--ff-m); font-size:12px; color:var(--dim); }
+  .cls-cj{flex:1; height:1px; background:var(--line);}
+  .cls-ck b{color:var(--accent);}
+
+  .cls-bo{padding:34px 0 92px;}
+  .cls-x{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
+  .cls-bi{
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--r-md);
+    padding:30px 28px; display:flex; flex-direction:column; position:relative;
+    border-left:3px solid transparent;
+    transition:transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+  }
+  .cls-bi:hover{transform:translateY(-6px); border-left-color:var(--accent); box-shadow:0 20px 40px -22px rgba(0,0,0,.55);}
+  .cls-bi.cls-at{ border-left-color:var(--accent); box-shadow:0 26px 60px -26px rgba(0,0,0,.6); }
+
+  .cls-bn{display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:22px;}
+  .cls-bk{font-family:var(--ff-m); font-size:11px; color:var(--dim);}
+  .cls-bj{
+    font-family:var(--ff-m); font-size:10.5px; font-weight:600; letter-spacing:.06em;
+    color:#241400; background:var(--accent);
+    padding:4px 10px; border-radius:4px; text-transform:uppercase;
+  }
+  .cls-bi h3{font-size:21px; font-weight:600; margin-bottom:6px;}
+  .cls-bi .cls-cf{font-size:13.5px; color:var(--mid); margin-bottom:24px;}
+  .cls-bm{
+    display:flex; align-items:baseline; gap:6px; font-family:var(--ff-m);
+    margin-bottom:18px; padding-bottom:22px; border-bottom:1px dashed var(--line);
+  }
+  .cls-bm .cls-k{font-size:30px; font-weight:600; color:var(--white); font-family:var(--ff-d);}
+  .cls-bm .cls-bf{font-size:12px; color:var(--dim);}
+
+  .cls-t{ margin:0 0 22px; }
+  .cls-w{ display:flex; justify-content:space-between; font-family:var(--ff-m); font-size:11px; color:var(--dim); margin-bottom:7px; }
+  .cls-u{ height:5px; border-radius:4px; background:rgba(255,255,255,.08); overflow:hidden; }
+  .cls-v{ height:100%; background:var(--accent); border-radius:4px; width:0; transition:width 1s cubic-bezier(.2,.7,.2,1); }
+
+  .cls-bl{margin:0 0 28px;}
+  .cls-bl li{
+    display:flex; gap:10px; align-items:flex-start;
+    font-size:13.5px; color:var(--lav); padding:7px 0; font-family:var(--ff-m);
+  }
+  .cls-bl li::before{ content:"›"; color:var(--accent); font-weight:600; line-height:1.4; }
+  .cls-bi .cls-p{margin-top:auto; width:100%;}
+
+  .cls-z{padding:20px 0 96px;}
+  .cls-bu{max-width:600px; margin:0 auto 38px; text-align:center;}
+  .cls-bu h2{font-size:clamp(26px,3.2vw,34px); font-weight:600; letter-spacing:-.01em; margin-top:14px;}
+  .cls-bu .cls-ag{justify-content:center; width:100%;}
+
+  .cls-bd{
+    border:1px solid var(--line); border-radius:var(--r-md); overflow:hidden; background:var(--panel);
+  }
+  .cls-be{
+    display:flex; align-items:center; gap:8px; padding:14px 18px;
+    border-bottom:1px solid var(--line); background:rgba(255,255,255,.02);
+    font-family:var(--ff-m); font-size:11.5px; color:var(--dim);
+  }
+  .cls-be .cls-av{ background:var(--accent); }
+
+  .cls-ad{width:100%; border-collapse:collapse;}
+  .cls-ad th{
+    text-align:center; font-family:var(--ff-m); font-size:11.5px; letter-spacing:.06em;
+    color:var(--dim); text-transform:uppercase; padding:16px 18px; font-weight:600;
+    border-bottom:1px solid var(--line);
+  }
+  .cls-ad th:first-child{text-align:left; color:var(--mid);}
+  .cls-ad td{
+    padding:15px 18px; border-bottom:1px solid var(--line-soft); text-align:center;
+    font-size:13.5px; color:var(--mid); font-family:var(--ff-m);
+  }
+  .cls-ad tr:last-child td{border-bottom:none;}
+  .cls-ad tr:hover td{background:var(--accent-soft);}
+  .cls-ad td:first-child{ text-align:left; color:var(--white); font-family:var(--ff-b); font-weight:600; }
+  .cls-ad td.cls-ba{color:rgba(255,255,255,.18);}
+  .cls-ad td.cls-cl{color:var(--accent); font-weight:600;}
+  .cls-ad td.cls-cl::before{content:"✓ ";}
+
+  .cls-ah{padding:10px 0 96px;}
+  .cls-ah .cls-cm{ display:flex; flex-direction:column; align-items:center; text-align:center; }
+  .cls-al{ width:100%; max-width:900px; margin:0 auto; border-top:1px solid var(--line); text-align:left; }
+  .cls-ak{border-bottom:1px solid var(--line);}
+  .cls-am{ display:flex; align-items:center; gap:14px; padding:22px 4px; cursor:pointer; }
+  .cls-am .cls-bp{ font-family:var(--ff-m); color:var(--accent); font-size:15px; font-weight:600; }
+  .cls-am h4{font-family:var(--ff-b); font-size:15.5px; font-weight:600; color:var(--white); margin:0; flex:1;}
+  .cls-am .cls-y{ font-family:var(--ff-m); color:var(--dim); transition:transform .25s ease; }
+  .cls-ak.cls-bb .cls-y{transform:rotate(90deg); color:var(--accent);}
+  .cls-ai{max-height:0; overflow:hidden; transition:max-height .35s ease;}
+  .cls-aj{ display:flex; gap:12px; padding:0 4px 24px 4px; font-family:var(--ff-m); font-size:13.5px; line-height:1.7; color:var(--mid); }
+  .cls-aj .cls-l{color:var(--accent); flex:0 0 auto;}
+
+  .cls-ab{padding:0 0 110px;}
+  .cls-ac{
+    position:relative; text-align:center; padding:76px 40px; overflow:hidden;
+    border:1px solid var(--line); border-radius:var(--r-md); background:var(--panel);
+  }
+  .cls-ac::before{
+    content:""; position:absolute; inset:0;
+    background:radial-gradient(520px 260px at 50% 0%, var(--accent-glow), transparent 70%);
+    opacity:.45;
+  }
+  .cls-ac > *{position:relative; z-index:1;}
+  .cls-ac h2{font-size:clamp(24px,3.4vw,36px); margin-bottom:14px;}
+  .cls-ac p{font-size:15.5px; margin-bottom:30px; font-family:var(--ff-m); color:var(--mid);}
+  .cls-ac p b{color:var(--accent);}
+
+  .cls-bq{opacity:0; transform:translateY(24px); transition:opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); transition-delay: calc(var(--spl-i,0)*90ms);}
+  .cls-bq.cls-au{opacity:1; transform:none;}
+  .cls-bt{opacity:0; transform:scale(.94); transition:opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1); transition-delay: calc(var(--spl-i,0)*90ms);}
+  .cls-bt.cls-au{opacity:1; transform:scale(1);}
+  .cls-br{opacity:0; transform:translateX(-30px); transition:opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); transition-delay: calc(var(--spl-i,0)*90ms);}
+  .cls-br.cls-au{opacity:1; transform:none;}
+  .cls-bs{opacity:0; transform:translateX(30px); transition:opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); transition-delay: calc(var(--spl-i,0)*90ms);}
+  .cls-bs.cls-au{opacity:1; transform:none;}
+
+  .cls-aw{
+    display:none; position:fixed; left:12px; right:12px; bottom:14px; z-index:40;
+    align-items:center; justify-content:space-between; gap:12px;
+    background:var(--panel); border:1px solid var(--line); border-radius:12px;
+    padding:12px 12px 12px 16px; box-shadow:0 18px 40px -14px rgba(0,0,0,.6);
+    transform:translateY(120%); opacity:0; transition:transform .35s cubic-bezier(.2,.8,.2,1), opacity .35s ease;
+  }
+  .cls-aw.cls-az{ transform:translateY(0); opacity:1; }
+  .cls-ay{ display:flex; flex-direction:column; line-height:1.3; }
+  .cls-ay b{ color:var(--white); font-family:var(--ff-d); font-size:14px; }
+  .cls-ay span{ font-family:var(--ff-m); font-size:10.5px; color:var(--dim); }
+  .cls-ax{ padding:11px 18px; font-size:13px; white-space:nowrap; }
+
+  @media (max-width: 980px){
+    .cls-cm{padding-left:28px; padding-right:28px;}
+    .cls-ap{grid-template-columns:1fr;}
+    .cls-x{grid-template-columns:1fr; gap:18px;}
+    .cls-ad{font-size:12px;}
+    .cls-bi.cls-at{order:-1;}
+  }
+
+  @media (max-width: 720px){
+    .cls-cm{padding-left:26px; padding-right:26px;}
+    .cls-an{padding-top:36px;}
+    .cls-ao{flex-direction:column; align-items:stretch;}
+    .cls-ao .cls-p{width:100%;}
+    .cls-ar{gap:14px 22px;}
+    .cls-ck .cls-cm{ overflow-x:auto; -webkit-overflow-scrolling:touch; padding-bottom:2px; scrollbar-width:none; }
+    .cls-ck .cls-cm::-webkit-scrollbar{display:none;}
+    .cls-ck span{white-space:nowrap;}
+    .cls-cj{min-width:20px;}
+    .cls-bi{padding:24px 20px;}
+    .cls-bu{padding:0 6px;}
+    .cls-bx{width:52px;}
+    .cls-bz{font-size:9px;}
+
+    .cls-ad, .cls-ad thead, .cls-ad tbody,
+    .cls-ad th, .cls-ad td, .cls-ad tr{ display:block; width:100%; }
+    .cls-ad thead{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+    .cls-ad tr{ padding:16px 18px 12px; border-bottom:1px solid var(--line); }
+    .cls-ad tr:last-child{border-bottom:none;}
+    .cls-ad td{
+      border-bottom:none; text-align:left; padding:6px 0; font-size:13px;
+      display:flex; justify-content:space-between; align-items:center; gap:12px;
+    }
+    .cls-ad td:first-child{
+      font-family:var(--ff-m); font-weight:600; font-size:12.5px; color:var(--accent);
+      text-transform:uppercase; letter-spacing:.04em; padding:0 0 10px;
+    }
+    .cls-ad td[data-label]::before{
+      content: attr(data-label); color:var(--dim); font-weight:400; text-transform:uppercase;
+      font-size:10.5px; letter-spacing:.06em;
+    }
+
+    .cls-aw{ display:flex; }
+    
+  }
+
+  @media (max-width: 560px){
+    .cls-cm{padding:50PX 24px;}
+    .cls-as{max-width:100%;}
+    .cls-aq{max-width:100%;}
+    .cls-ce{gap:22px;}
+    .cls-ac{padding:48px 22px;}
+    .cls-bm .cls-k{font-size:26px;}
+    .cls-am{padding:18px 2px; gap:10px;}
+    .cls-am h4{font-size:14.5px;}
+    .cls-bg{padding:20px 18px 18px;}
+	.cls-ab {padding: 0 0 0px;}
+    .cls-ah {padding: 10px 0 0px;}
+	.cls-z {padding: 0px 0 0px;}
+	.cls-bo {padding: 0px 0 0px;}
+	.cls-ck .cls-cm {padding-top: 0;}
+	.cls-ck .cls-cm {gap: 10px;}
+	.cls-an { padding-bottom: 0px;}
+	.cls-x {gap: 30px;}
+	.cls-ck .cls-cm {padding-left: 15px;}
+     }
+
+  @media (max-width: 400px){
+    .cls-cm{padding-left:20px; padding-right:20px;}
+    .cls-ar{gap:12px 18px; font-size:11px;}
+    .cls-cb .cls-cd{font-size:19px;}
+    .cls-bx{width:44px;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important; animation:none !important;}
+    .cls-bc{opacity:1; transform:none; filter:none;}
+  }
+
+  :root{
+    --navy-line: rgba(247,164,0,0.14);
+    --amber:#f7a400;
+    --amber-hi:#ffc247;
+    --text-hi:#F5F6FF;
+    --text-mid:#B7BAE6;
+    --text-low:#7f83b8;
+  }
+  header, header *, footer, footer *{box-sizing:border-box; margin:0; padding:0;}
+  .cls-cn{max-width:1180px; margin:0 auto; padding:0 0px;}
+
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    padding:18px 0; transition:background .3s ease, padding .3s ease, border-color .3s ease;
+    border-bottom:1px solid transparent;
+  }
+  header.cls-h{ background:rgba(14,16,75,0.85); backdrop-filter:blur(14px); padding:12px 0; border-color:var(--navy-line);}
+  header .cls-cn{display:flex; align-items:center; justify-content:space-between;}
+  .cls-g{font-family:'Sora',sans-serif; font-weight:600; font-size:20px; display:flex; align-items:center; gap:8px;}
+  .cls-g .cls-d{width:9px; height:9px; background:var(--amber); border-radius:2px;}
+  nav ul{display:flex; gap:30px; list-style:none;}
+  nav a{font-size:14.5px; font-weight:500; color:var(--text-mid); transition:color .2s;}
+  nav a:hover{color:var(--amber);}
+  header .cls-c{display:flex; align-items:center; gap:18px;}
+  header .cls-a{padding:11px 22px; font-size:14px;}
+  .cls-b{display:none; flex-direction:column; gap:5px; cursor:pointer;}
+  .cls-b span{width:22px; height:2px; background:var(--text-hi);}
+
+  .cls-a{
+    display:inline-flex; align-items:center; gap:10px;
+    background:var(--amber); color:#1a1200; font-weight:600; font-family:'Sora',sans-serif;
+    padding:15px 28px; border-radius:100px; border:none; cursor:pointer;
+    font-size:15px; transition:transform .25s ease, box-shadow .25s ease, background .25s ease;
+    box-shadow:0 0 0 0 rgba(247,164,0,.5);
+  }
+  .cls-a:hover{ background:var(--amber-hi); transform:translateY(-2px); box-shadow:0 10px 30px -6px rgba(247,164,0,.55);}
+
+  footer{border-top:1px solid var(--navy-line); padding:70px 0 30px;}
+  .cls-f{display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; margin-bottom:50px;}
+  .cls-f h5{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--amber); text-transform:uppercase; letter-spacing:.08em; margin-bottom:18px;}
+  .cls-f ul{list-style:none; display:flex; flex-direction:column; gap:11px;}
+  .cls-f ul a{color:var(--text-mid); font-size:14px;}
+  .cls-f ul a:hover{color:var(--amber);}
+  .cls-e{display:flex; justify-content:space-between; align-items:center; padding-top:26px; border-top:1px solid var(--navy-line); color:var(--text-low); font-size:13px; flex-wrap:cls-cn; gap:14px;}
+  .cls-i{display:flex; gap:14px;}
+  .cls-i a{width:34px; height:34px; border:1px solid var(--navy-line); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; color:var(--text-mid);}
+  .cls-i a:hover{border-color:var(--amber); color:var(--amber);}
+
+  @media(max-width:900px){
+    .cls-cn{padding-left:20px; padding-right:20px;}
+    nav{display:none;}
+    .cls-b{display:flex;}
+    .cls-f{grid-template-columns:1fr 1fr;}
+  }
+</style>
+
+<header id="siteHeader">
+  <div class="cls-cn">
+    <a href="index.html" class="cls-g"><span class="cls-d"></span>CRO<span style="color:var(--amber)">.STUDIO</span></a>
+    <nav>
+      <ul>
+        <li><a href="cro-audit.html">CRO Audit</a></li>
+        <li><a href="seo-audit.html">SEO Audit</a></li>
+        <li><a href="site-speed-audit.html">Site Speed Audit</a></li>
+        <li><a href="retainers.html">Retainers</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="cls-c"><a href="contact.html" class="cls-a">Get Your Audit</a></div>
+    <div class="cls-b"><span></span><span></span><span></span></div>
+  </div>
+</header>
+
+<div class="cls-bc">
+<div class="cls-o"></div>
+
+<section class="cls-an">
+  <div class="cls-cm cls-ap">
+    <div>
+      <div class="cls-aa cls-bq"><a href="index.html">Home</a> / Retainers</div>
+      <div class="cls-ag cls-bq"><span><i class="cls-av"></i> Ongoing Support</span></div>
+      <h1 class="cls-as cls-bq">Growth & Optimization <em>Retainers</em></h1>
+      <p class="cls-aq cls-bq">A one-time audit identifies opportunities, but consistent optimization is what drives long-term ecommerce growth. Our Shopify Retainer Services provide ongoing support to implement improvements, optimize conversion rates, enhance SEO, improve site speed, and continuously test new ideas that increase revenue.</p>
+      <div class="cls-ao cls-bq">
+        <a href="contact.html" class="cls-p cls-s">Start Your 7-Day Free Trial <span class="cls-q">→</span></a>
+        <a href="#cls-z" class="cls-p cls-r">Compare Retainer Plans</a>
+      </div>
+      <div class="cls-ce cls-bq">
+        <div class="cls-cb"><span class="cls-cd" data-count="38" data-suffix="%">0%</span><span class="cls-cc">Average Increase in Conversion Rate</span></div>
+        <div class="cls-cb"><span class="cls-cd" data-count="2.4" data-suffix="×" data-decimals="1">0×</span><span class="cls-cc">More Optimization Projects Delivered</span></div>
+        <div class="cls-cb"><span class="cls-cd" data-count="96" data-suffix="%">0%</span><span class="cls-cc">Client Retention Rate</span></div>
+      </div>
+      <div class="cls-ar cls-bq">
+        <div><b>3</b> retainer tiers</div>
+        <div><b>48–72h</b> avg. task turnaround</div>
+        <div><b>0</b> long-term lock-in</div>
+      </div>
+    </div>
+
+    <div class="cls-bg cls-bt">
+      <div class="cls-bh"><b>Task pipeline</b><span>live</span></div>
+
+      <div class="cls-ca" id="splStages">
+        <div class="cls-bx" data-i="0"><span class="cls-by"></span><span class="cls-bz">Audit<br>found</span></div>
+        <div class="cls-bv"><div class="cls-bw" data-seg="0"></div></div>
+        <div class="cls-bx" data-i="1"><span class="cls-by"></span><span class="cls-bz">Queued</span></div>
+        <div class="cls-bv"><div class="cls-bw" data-seg="1"></div></div>
+        <div class="cls-bx" data-i="2"><span class="cls-by"></span><span class="cls-bz">Building</span></div>
+        <div class="cls-bv"><div class="cls-bw" data-seg="2"></div></div>
+        <div class="cls-bx" data-i="3"><span class="cls-by"></span><span class="cls-bz">Shipped</span></div>
+      </div>
+
+      <div class="cls-ci">
+        <div class="cls-cg">
+          <div class="cls-ch"><span>Checkout flow redesign</span><span class="cls-af">Shipped</span></div>
+          <div class="cls-m"><div class="cls-n" data-target="100"></div></div>
+        </div>
+        <div class="cls-cg">
+          <div class="cls-ch"><span>Sticky add-to-cart test</span><span>Building — 72%</span></div>
+          <div class="cls-m"><div class="cls-n" data-target="72"></div></div>
+        </div>
+        <div class="cls-cg">
+          <div class="cls-ch"><span>Speed audit fixes</span><span>Queued — 20%</span></div>
+          <div class="cls-m"><div class="cls-n" data-target="20"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cls-ck cls-bq">
+  <div class="cls-cm">
+    <span><b>[ 01 ]</b> Support</span><span class="cls-cj"></span>
+    <span><b>[ 02 ]</b> Growth</span><span class="cls-cj"></span>
+    <span><b>[ 03 ]</b> Enterprise</span>
+  </div>
+</div>
+
+<section class="cls-bo">
+  <div class="cls-cm">
+    <div class="cls-x">
+
+      <div class="cls-bi cls-br" style="--spl-i:0">
+        <div class="cls-bn"><span class="cls-bk">PLAN / 01</span></div>
+        <h3>Support Retainer</h3>
+        <p class="cls-cf">For stores that need steady upkeep</p>
+        <div class="cls-bm"><span class="cls-k">$0</span><span class="cls-bf">/ 7-day trial, then monthly</span></div>
+        <div class="cls-t">
+          <div class="cls-w"><span>Task queue</span><span>2–3 active</span></div>
+          <div class="cls-u"><div class="cls-v" data-cap="40"></div></div>
+        </div>
+        <ul class="cls-bl">
+          <li>Theme customization</li>
+          <li>Bug fixes & small builds</li>
+          <li>Speed optimization</li>
+          <li>Weekly check-ins</li>
+        </ul>
+        <a href="contact.html" class="cls-p cls-r">Start Trial</a>
+      </div>
+
+      <div class="cls-bi cls-at cls-bt" style="--spl-i:1">
+        <div class="cls-bn">
+          <span class="cls-bk">PLAN / 02</span>
+          <span class="cls-bj">Best Value</span>
+        </div>
+        <h3>Growth Retainer</h3>
+        <p class="cls-cf">For stores actively optimizing</p>
+        <div class="cls-bm"><span class="cls-k">$0</span><span class="cls-bf">/ 7-day trial, then monthly</span></div>
+        <div class="cls-t">
+          <div class="cls-w"><span>Task queue</span><span>4–5 active</span></div>
+          <div class="cls-u"><div class="cls-v" data-cap="75"></div></div>
+        </div>
+        <ul class="cls-bl">
+          <li>Everything in Support</li>
+          <li>CRO audit + implementation</li>
+          <li>A/B testing suite</li>
+          <li>Monthly growth roadmap</li>
+          <li>Dedicated CRO + dev team</li>
+        </ul>
+        <a href="contact.html" class="cls-p cls-s">Start Trial</a>
+      </div>
+
+      <div class="cls-bi cls-bs" style="--spl-i:2">
+        <div class="cls-bn"><span class="cls-bk">PLAN / 03</span></div>
+        <h3>Enterprise Support</h3>
+        <p class="cls-cf">For high-volume & Plus stores</p>
+        <div class="cls-bm"><span class="cls-k">Custom</span></div>
+        <div class="cls-t">
+          <div class="cls-w"><span>Task queue</span><span>Unlimited</span></div>
+          <div class="cls-u"><div class="cls-v" data-cap="100"></div></div>
+        </div>
+        <ul class="cls-bl">
+          <li>Everything in Growth</li>
+          <li>Shopify Plus & headless support</li>
+          <li>Marketing automation</li>
+          <li>Priority response times</li>
+          <li>Weekly strategy calls</li>
+        </ul>
+        <a href="contact.html" class="cls-p cls-r">Talk to Us</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="cls-z" id="cls-z">
+  <div class="cls-cm">
+    <div class="cls-bu cls-bq">
+      <div class="cls-ag"><span>Compare Plans</span></div>
+      <h2>Find the right level of support</h2>
+    </div>
+
+    <div class="cls-bd cls-bt">
+      <div class="cls-be"><i class="cls-av" style="width:8px;height:8px;border-radius:50%;display:inline-block;"></i><span>plan-comparison</span></div>
+      <table class="cls-ad">
+        <thead>
+          <tr><th>Feature</th><th>Support</th><th>Growth</th><th>Enterprise</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Task queue</td><td data-label="Support">2–3 active</td><td data-label="Growth">4–5 active</td><td data-label="Enterprise" class="cls-cl">Unlimited</td></tr>
+          <tr><td>CRO audit included</td><td data-label="Support" class="cls-ba">—</td><td data-label="Growth" class="cls-cl">Included</td><td data-label="Enterprise" class="cls-cl">Included</td></tr>
+          <tr><td>A/B testing</td><td data-label="Support" class="cls-ba">—</td><td data-label="Growth" class="cls-cl">Included</td><td data-label="Enterprise" class="cls-cl">Included</td></tr>
+          <tr><td>Shopify Plus support</td><td data-label="Support" class="cls-ba">—</td><td data-label="Growth" class="cls-ba">—</td><td data-label="Enterprise" class="cls-cl">Included</td></tr>
+          <tr><td>Strategy calls</td><td data-label="Support">Monthly</td><td data-label="Growth">Bi-weekly</td><td data-label="Enterprise" class="cls-cl">Weekly</td></tr>
+          <tr><td>Response time</td><td data-label="Support">48hr</td><td data-label="Growth">24hr</td><td data-label="Enterprise" class="cls-cl">Priority</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="cls-ah" id="cls-ah">
+  <div class="cls-cm">
+    <div class="cls-bu cls-bq">
+      <div class="cls-ag"><span>FAQ</span></div>
+      <h2>Questions about retainers</h2>
+    </div>
+
+    <div class="cls-al cls-bq">
+      <div class="cls-ak">
+        <div class="cls-am"><span class="cls-bp">?</span><h4>What is included in a Shopify retainer?</h4><span class="cls-y">›</span></div>
+        <div class="cls-ai"><div class="cls-aj"><span class="cls-l">›</span><span>A Shopify retainer provides ongoing access to a dedicated team of Shopify developers, CRO specialists, SEO experts, and UX professionals who continuously improve your store through technical updates, conversion optimization, SEO enhancements, performance improvements, and strategic consulting.</span></div></div>
+      </div>
+      <div class="cls-ak">
+        <div class="cls-am"><span class="cls-bp">?</span><h4>Is there a long-term contract?</h4><span class="cls-y">›</span></div>
+        <div class="cls-ai"><div class="cls-aj"><span class="cls-l">›</span><span>No. All of our Shopify retainers operate on a flexible month-to-month basis. You can upgrade, downgrade, pause, or cancel your plan as your business requirements change.</span></div></div>
+      </div>
+      <div class="cls-ak">
+        <div class="cls-am"><span class="cls-bp">?</span><h4>How does the 7-day trial work?</h4><span class="cls-y">›</span></div>
+        <div class="cls-ai"><div class="cls-aj"><span class="cls-l">›</span><span>Your trial gives you full access to your selected retainer plan, allowing you to experience our workflow, communication, and implementation process before committing to a monthly subscription.</span></div></div>
+      </div>	  
+	   <div class="cls-ak">
+        <div class="cls-am"><span class="cls-bp">?</span><h4>Can you implement recommendations from previous audits?</h4><span class="cls-y">›</span></div>
+        <div class="cls-ai"><div class="cls-aj"><span class="cls-l">›</span><span>Absolutely. Many of our clients begin with a Shopify CRO Audit, SEO Audit, or Site Speed Audit before moving onto a monthly retainer. Our team implements every recommendation and continues optimizing your store over time.</span></div></div>
+      </div>
+	   <div class="cls-ak">
+        <div class="cls-am"><span class="cls-bp">?</span><h4>Do you support Shopify Plus?</h4><span class="cls-y">›</span></div>
+        <div class="cls-ai"><div class="cls-aj"><span class="cls-l">›</span><span>Yes. We work with both standard Shopify and Shopify Plus stores, providing advanced development, checkout optimization, automation, and enterprise-level growth strategies.</span></div></div>
+      </div>
+	    <div class="cls-ak">
+        <div class="cls-am"><span class="cls-bp">?</span><h4>Do you perform A/B testing?</h4><span class="cls-y">›</span></div>
+        <div class="cls-ai"><div class="cls-aj"><span class="cls-l">›</span><span>Yes. Depending on your retainer plan, we continuously develop, launch, monitor, and optimize A/B tests to improve conversion rates, increase average order value, and enhance the overall customer experience.</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cls-ab">
+  <div class="cls-cm">
+    <div class="cls-ac cls-bt">
+      <h2>Ready to start shipping improvements?</h2>
+      <p><b>7-day trial</b> · no commitment · cancel anytime</p>
+      <a href="contact.html" class="cls-p cls-s">Start Your Trial <span class="cls-q">→</span></a>
+    </div>
+  </div>
+</section>
+
+<div class="cls-aw" id="splMobileCta">
+  <div class="cls-ay"><b>Start free</b><span>7-day trial · cancel anytime</span></div>
+  <a href="contact.html" class="cls-p cls-s cls-ax">Start Trial</a>
+</div>
+</div>
+
+<footer>
+  <div class="cls-cn">
+    <div class="cls-f">
+      <div>
+        <a href="index.html" class="cls-g" style="margin-bottom:14px;"><span class="cls-d"></span>CRO<span style="color:var(--amber)">.STUDIO</span></a>
+        <p style="color:var(--text-mid); font-size:14px; max-width:280px;">You might need a decent Shopify CRO partner in the future — let's connect.</p>
+      </div>
+      <div>
+        <h5>Audits</h5>
+        <ul>
+          <li><a href="cro-audit.html">CRO Audit</a></li>
+          <li><a href="seo-audit.html">SEO Audit</a></li>
+          <li><a href="site-speed-audit.html">Site Speed Audit</a></li>
+          <li><a href="retainers.html">Retainers</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="retainers.html">Retainers</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Resources</h5>
+        <ul>
+          <li><a href="index.html#faq">FAQ</a></li>
+          <li><a href="contact.html">Free Quote</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="cls-e">
+      <div>© 2026 CRO.STUDIO. All rights reserved.</div>
+      <div class="cls-i"><a href="#">in</a><a href="#">ig</a><a href="#">x</a><a href="#">fb</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // header scroll state
+  const header = document.getElementById('siteHeader');
+  window.addEventListener('scroll', ()=>{
+    header.classList.toggle('cls-h', window.scrollY > 30);
+  });
+
+  // Scroll reveal
+  const splRevealSelectors = '.cls-bq, .cls-bt, .cls-br, .cls-bs';
+  const splIo = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('cls-au'); splIo.unobserve(e.target); } });
+  }, {threshold:.12});
+  document.querySelectorAll(splRevealSelectors).forEach(el=>splIo.observe(el));
+
+  // Animated stat counters
+  (function(){
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const nums = document.querySelectorAll('.cls-cd[data-count]');
+    if(!nums.length) return;
+    function animateCount(el){
+      const target = parseFloat(el.getAttribute('data-count'));
+      const suffix = el.getAttribute('data-suffix') || '';
+      const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+      if(reduceMotion){ el.textContent = target.toFixed(decimals) + suffix; return; }
+      const duration = 1100; const start = performance.now();
+      function tick(now){
+        const p = Math.min((now - start)/duration, 1);
+        const eased = 1 - Math.pow(1-p, 3);
+        el.textContent = (target*eased).toFixed(decimals) + suffix;
+        if(p < 1) requestAnimationFrame(tick);
+        else el.textContent = target.toFixed(decimals) + suffix;
+      }
+      requestAnimationFrame(tick);
+    }
+    const statIo = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ animateCount(e.target); statIo.unobserve(e.target); } });
+    }, {threshold:.4});
+    nums.forEach(n=>statIo.observe(n));
+  })();
+
+  // Progress / capacity bars fill in when visible
+  (function(){
+    const bars = document.querySelectorAll('.cls-n[data-target], .cls-v[data-cap]');
+    const barIo = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          const el = e.target;
+          const val = el.getAttribute('data-target') || el.getAttribute('data-cap');
+          requestAnimationFrame(()=>{ el.style.width = val + '%'; });
+          barIo.unobserve(el);
+        }
+      });
+    }, {threshold:.3});
+    bars.forEach(b=>barIo.observe(b));
+  })();
+
+  // Sticky mobile CTA
+  (function(){
+    const bar = document.getElementById('splMobileCta');
+    const hero = document.querySelector('.cls-an');
+    const footerCta = document.querySelector('.cls-ab');
+    if(!bar || !hero) return;
+    let heroDone = false, nearFooter = false;
+    new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ heroDone = !e.isIntersecting && e.boundingClientRect.top < 0; updateBar(); });
+    }, {threshold:0}).observe(hero);
+    if(footerCta){
+      new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{ nearFooter = e.isIntersecting; updateBar(); });
+      }, {threshold:.15}).observe(footerCta);
+    }
+    function updateBar(){
+      if(heroDone && !nearFooter) bar.classList.add('cls-az');
+      else bar.classList.remove('cls-az');
+    }
+  })();
+
+  // FAQ accordion
+  document.querySelectorAll('.cls-ak').forEach(item=>{
+    const q = item.querySelector('.cls-am');
+    const a = item.querySelector('.cls-ai');
+    q.addEventListener('click', ()=>{
+      const isOpen = item.classList.contains('cls-bb');
+      document.querySelectorAll('.cls-ak.cls-bb').forEach(other=>{
+        if(other!==item){ other.classList.remove('cls-bb'); other.querySelector('.cls-ai').style.maxHeight = null; }
+      });
+      if(isOpen){ item.classList.remove('cls-bb'); a.style.maxHeight = null; }
+      else{ item.classList.add('cls-bb'); a.style.maxHeight = a.scrollHeight + 'px'; }
+    });
+  });
+
+  (function(){
+    const stagesEl = document.getElementById('splStages');
+    if(!stagesEl) return;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const stages = Array.from(stagesEl.querySelectorAll('.cls-bx'));
+    const segs = Array.from(stagesEl.querySelectorAll('.cls-bw'));
+
+    if(reduceMotion){
+      stages.forEach(s=>s.classList.add('cls-ae'));
+      segs.forEach(s=>s.style.width = '100%');
+      return;
+    }
+
+    let step = 0;
+    const total = stages.length;
+    const stepMs = 1500;
+
+    function render(){
+      stages.forEach((s, i)=>{
+        s.classList.remove('cls-j','cls-ae');
+        if(i < step) s.classList.add('cls-ae');
+        else if(i === step) s.classList.add('cls-j');
+      });
+      segs.forEach((seg, i)=>{
+        seg.style.width = i < step ? '100%' : '0%';
+      });
+    }
+
+    function loop(){
+      render();
+      if(step < total - 1){
+        step++;
+        setTimeout(loop, stepMs);
+      } else {
+        setTimeout(()=>{ step = 0; loop(); }, stepMs * 1.6);
+      }
+    }
+
+    loop();
+  })();
+</script>

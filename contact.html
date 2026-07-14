@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us — CRO.STUDIO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy-deep:#0E104B;
+  --navy-panel:#161a5e;
+  --navy-panel-2:#1e2274;
+  --navy-line: rgba(247,164,0,0.14);
+  --amber:#f7a400;
+  --amber-hi:#ffc247;
+  --text-hi:#F5F6FF;
+  --text-mid:#B7BAE6;
+  --text-low:#7f83b8;
+  --radius:14px;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--navy-deep);
+  color:var(--text-hi);
+  font-family:'Inter',sans-serif;
+  overflow-x:hidden;
+  line-height:1.6;
+}
+h1,h2,h3,h4{font-family:'Sora',sans-serif; font-weight:700; letter-spacing:-0.02em;}
+.mono{font-family:'IBM Plex Mono',monospace;}
+a{color:inherit; text-decoration:none;}
+img{max-width:100%; display:block;}
+.wrap{max-width:1180px; margin:0 auto; padding:0 28px;}
+section{position:relative; padding:110px 0;}
+
+:focus-visible{outline:2px solid var(--amber); outline-offset:3px; border-radius:4px;}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important;}
+}
+
+.eyebrow{
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.14em;
+  color:var(--amber); text-transform:uppercase; margin-bottom:18px;
+}
+.eyebrow::before{content:''; width:18px; height:2px; background:var(--amber); display:inline-block; flex-shrink:0;}
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:10px;
+  background:var(--amber); color:#1a1200; font-weight:700; font-family:'Sora',sans-serif;
+  padding:15px 28px; border-radius:100px; border:none; cursor:pointer;
+  font-size:15px; transition:transform .25s ease, box-shadow .25s ease, background .25s ease;
+  box-shadow:0 0 0 0 rgba(247,164,0,.5);
+}
+.btn:hover{ background:var(--amber-hi); transform:translateY(-2px); box-shadow:0 10px 30px -6px rgba(247,164,0,.55);}
+.btn:active{ transform:translateY(0); }
+.btn-outline{ background:transparent; border:1px solid rgba(255,255,255,.22); color:var(--text-hi); }
+.btn-outline:hover{border-color:var(--amber); color:var(--amber); background:transparent; box-shadow:none;}
+
+/* reveal animation */
+  .reveal{opacity:0; transform:translateY(28px); transition:opacity .8s ease, transform .8s ease;}
+  .reveal.visible{opacity:1; transform:translateY(0);}
+  .reveal-stagger.visible > *{ animation: none; }
+  
+/* ===== HEADER ===== */
+header{
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  padding:18px 0; transition:background .3s ease, padding .3s ease, border-color .3s ease;
+  border-bottom:1px solid transparent;
+}
+header.scrolled{ background:rgba(14,16,75,0.85); backdrop-filter:blur(14px); padding:12px 0; border-color:var(--navy-line);}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:16px;}
+.logo{font-family:'Sora',sans-serif; font-weight:800; font-size:20px; display:flex; align-items:center; gap:8px; flex-shrink:0;}
+.logo .dot{width:9px; height:9px; background:var(--amber); border-radius:2px; flex-shrink:0;}
+nav ul{display:flex; gap:30px; list-style:none;}
+nav a{font-size:14.5px; font-weight:500; color:var(--text-mid); transition:color .2s;}
+nav a:hover{color:var(--amber);}
+header .cta{display:flex; align-items:center; gap:18px;}
+header .btn{padding:11px 22px; font-size:14px; white-space:nowrap;}
+.burger{display:none; flex-direction:column; gap:5px; cursor:pointer; padding:6px; z-index:110;}
+.burger span{width:22px; height:2px; background:var(--text-hi); transition:transform .25s ease, opacity .25s ease;}
+.burger.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+.burger.open span:nth-child(2){ opacity:0; }
+.burger.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+
+/* ===== PAGE HERO ===== */
+.page-hero{padding:90px 0 40px; position:relative;}
+.page-hero::before{
+  content:''; position:absolute; inset:0; z-index:-1;
+  background:radial-gradient(700px 420px at 85% 0%, rgba(247,164,0,0.12), transparent 60%);
+}
+.breadcrumb{font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--text-low); margin-bottom:20px;}
+.breadcrumb a{color:var(--text-low);}
+.breadcrumb a:hover{color:var(--amber);}
+.hero-grid{display:grid; grid-template-columns:1.15fr 0.85fr; gap:60px; align-items:center;}
+.page-hero h1{font-size:clamp(30px,4vw,48px); line-height:1.1; max-width:620px; margin-bottom:18px;}
+.page-hero p.lead{font-size:17px; color:var(--text-mid); max-width:520px; margin-bottom:34px;}
+
+/* trust row */
+.trust-row{display:grid; grid-template-columns:repeat(3,auto); gap:30px; justify-content:start;}
+.stat-chip{ display:flex; align-items:center; gap:12px; padding:4px; border-radius:12px; transition:transform .3s ease; cursor:default; }
+.stat-chip:hover{ transform:translateY(-3px); }
+.stat-chip .ic{
+  width:38px; height:38px; flex-shrink:0; border-radius:10px;
+  background:rgba(247,164,0,.12); display:flex; align-items:center; justify-content:center;
+  transition:transform .55s cubic-bezier(.34,1.56,.64,1), background .3s ease, box-shadow .3s ease;
+}
+.stat-chip:hover .ic{
+  transform:rotate(360deg) scale(1.1);
+  background:rgba(247,164,0,.24);
+  box-shadow:0 8px 20px -6px rgba(247,164,0,.55);
+}
+.stat-chip .ic svg{ transition:stroke .3s ease; }
+.stat-chip:hover .ic svg *{ stroke:var(--amber-hi); }
+.stat-chip .txt strong{ display:block; font-family:'Sora',sans-serif; font-size:16px; margin-bottom:2px; transition:color .3s ease, letter-spacing .3s ease; }
+.stat-chip:hover .txt strong{ color:var(--amber-hi); letter-spacing:.01em; }
+.stat-chip .txt div{ font-size:12px; color:var(--text-low); font-family:'IBM Plex Mono',monospace; white-space:nowrap; transition:color .3s ease; }
+.stat-chip:hover .txt div{ color:var(--text-mid); }
+
+
+/* hero illustration (envelope signature graphic) */
+.hero-visual{ position:relative; display:flex; align-items:center; justify-content:center; padding:20px; }
+.hero-visual svg{ width:100%; max-width:420px; height:auto; }
+.pulse-ring{ animation:pulseRing 2.8s ease-out infinite; transform-origin:210px 210px; }
+.pulse-ring.d2{ animation-delay:1.4s; }
+@keyframes pulseRing{
+  0%{ opacity:.55; transform:scale(1); }
+  100%{ opacity:0; transform:scale(1.35); }
+}
+
+/* ===== CONTACT SECTION ===== */
+.contact-section{ padding-top:10px; padding-bottom:45px; }
+.contact-box{
+  background:linear-gradient(135deg,var(--navy-panel),var(--navy-panel-2));
+  border:1px solid var(--navy-line); border-radius:24px;
+  padding:56px; display:grid; grid-template-columns:0.85fr 1fr; gap:0;
+  position:relative;
+}
+.lead-col{ padding-right:50px; border-right:1px dashed var(--navy-line); }
+.lead-col h2{ font-size:28px; margin-bottom:2px; }
+.lead-col .underline{ width:46px; height:3px; background:var(--amber); border-radius:4px; margin-bottom:20px; }
+.lead-col > p{ color:var(--text-mid); margin-bottom:30px; font-size:15px; }
+
+.reach-list{ display:flex; flex-direction:column; gap:14px; }
+.reach-card{
+  display:flex; align-items:flex-start; gap:16px;
+  border:1px solid var(--navy-line); border-radius:var(--radius);
+  padding:18px; background:rgba(255,255,255,.02);
+  transition:border-color .25s ease, background .25s ease, transform .25s ease;
+}
+.reach-card:hover{ border-color:var(--amber); background:rgba(247,164,0,.05); transform:translateY(-2px); }
+.reach-card .ic{
+  width:42px; height:42px; flex-shrink:0; border-radius:11px;
+  background:rgba(247,164,0,.12); display:flex; align-items:center; justify-content:center;
+  transition:transform .45s cubic-bezier(.34,1.56,.64,1), background .25s ease;
+}
+.reach-card:hover .ic{ transform:rotate(-12deg) scale(1.06); background:rgba(247,164,0,.22); }
+.reach-card .ic svg{ transition:stroke .25s ease; }
+.reach-card:hover .ic svg *{ stroke:var(--amber-hi); }
+.reach-card h4{ font-size:15px; margin-bottom:4px; }
+.reach-card p{ color:var(--text-mid); font-size:13.5px; margin:0; }
+
+form{ padding-left:50px; }
+.form-grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.field{margin-bottom:16px;}
+.field label{display:block; font-size:12px; color:var(--text-low); margin-bottom:7px; font-family:'IBM Plex Mono',monospace; text-transform:uppercase; letter-spacing:.06em;}
+.field input, .field textarea, .field select{
+  width:100%; background:rgba(255,255,255,.04); border:1px solid var(--navy-line); border-radius:10px;
+  padding:13px 16px; color:var(--text-hi); font-family:'Inter',sans-serif; font-size:14.5px;
+  transition:border-color .2s ease, background .2s ease;
+}
+.field textarea{ resize:vertical; min-height:96px; }
+.field input:focus, .field textarea:focus, .field select:focus{outline:none; border-color:var(--amber); background:rgba(255,255,255,.06);}
+.field select{
+  appearance:none; cursor:pointer;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f7a400' stroke-width='2'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat:no-repeat; background-position:right 16px center; background-size:15px;
+}
+form .btn{ width:100%; margin-top:6px; }
+
+/* ===== QUICK ANSWERS ===== */
+.answers-box{
+  border:1px solid var(--navy-line); border-radius:24px; padding:50px;
+  display:grid; grid-template-columns:0.75fr 1.25fr; gap:50px; align-items:start;
+  background:rgba(255,255,255,.015);
+}
+.answers-head h2{ font-size:26px; margin-bottom:0; }
+.answers-head .underline{ width:46px; height:3px; background:var(--amber); border-radius:4px; margin-top:14px; }
+.answers-head p{ color:var(--text-mid); font-size:14px; margin-top:14px; }
+
+.faq-item{border-bottom:1px solid var(--navy-line);}
+.faq-item:first-child{border-top:none;}
+.faq-q{padding:20px 4px; display:flex; justify-content:space-between; align-items:center; gap:16px; cursor:pointer; font-family:'Sora',sans-serif; font-weight:600; font-size:15.5px;}
+.faq-q .plus{font-size:20px; color:var(--amber); transition:transform .3s ease; flex-shrink:0;}
+.faq-item.open .plus{transform:rotate(45deg);}
+.faq-a{max-height:0; overflow:hidden; transition:max-height .35s ease;}
+.faq-a p{padding:0 4px 20px; color:var(--text-mid); font-size:14px; max-width:640px;}
+
+/* ===== WHY US — image + text split ===== */
+.why-section{ padding-top:0; padding-bottom:0; }
+.split-2{ display:grid; grid-template-columns:0.9fr 1.1fr; gap:60px; align-items:center; }
+.why-visual{ position:relative; display:flex; align-items:center; justify-content:center; }
+.why-visual svg{ width:100%; max-width:440px; height:auto; }
+.why-copy h2{ font-size:clamp(26px,3vw,36px); margin-bottom:16px; }
+.why-copy > p{ color:var(--text-mid); font-size:15.5px; margin-bottom:28px; max-width:480px; }
+.why-list{ display:flex; flex-direction:column; gap:16px; }
+.why-item{ display:flex; align-items:flex-start; gap:14px; }
+.why-item .tick{
+  width:26px; height:26px; flex-shrink:0; border-radius:50%; margin-top:1px;
+  background:rgba(247,164,0,.14); display:flex; align-items:center; justify-content:center;
+  transition:transform .4s cubic-bezier(.34,1.56,.64,1), background .3s ease;
+}
+.why-item:hover .tick{ transform:rotate(360deg) scale(1.08); background:rgba(247,164,0,.26); }
+.why-item .tick svg{ width:13px; height:13px; }
+.why-item h4{ font-size:15px; margin-bottom:3px; }
+.why-item p{ color:var(--text-mid); font-size:13.5px; margin:0; }
+.why-float-card{
+  position:absolute; bottom:-14px; right:6%; background:var(--navy-panel);
+  border:1px solid var(--navy-line); border-radius:14px; padding:14px 18px;
+  display:flex; align-items:center; gap:10px; box-shadow:0 20px 40px -18px rgba(0,0,0,.55);
+}
+.why-float-card strong{ font-family:'Sora',sans-serif; font-size:18px; color:var(--amber); display:block; }
+.why-float-card span{ font-size:11px; color:var(--text-low); font-family:'IBM Plex Mono',monospace; }
+
+@media(max-width:860px){
+  .split-2{ grid-template-columns:1fr; gap:40px; }
+  .why-visual{ order:-1; max-width:340px; margin:0 auto; }
+  .why-float-card{ right:50%; transform:translateX(50%); }
+}
+footer{border-top:1px solid var(--navy-line); padding:70px 0 30px;}
+.foot-grid{display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; margin-bottom:50px;}
+.foot-grid h5{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--amber); text-transform:uppercase; letter-spacing:.08em; margin-bottom:18px;}
+.foot-grid ul{list-style:none; display:flex; flex-direction:column; gap:11px;}
+.foot-grid ul a{color:var(--text-mid); font-size:14px;}
+.foot-grid ul a:hover{color:var(--amber);}
+.foot-bottom{display:flex; justify-content:space-between; align-items:center; padding-top:26px; border-top:1px solid var(--navy-line); color:var(--text-low); font-size:13px; flex-wrap:wrap; gap:14px;}
+.socials{display:flex; gap:14px;}
+.socials a{width:34px; height:34px; border:1px solid var(--navy-line); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; color:var(--text-mid); transition:border-color .2s, color .2s;}
+.socials a:hover{border-color:var(--amber); color:var(--amber);}
+
+/* =========================================================
+   RESPONSIVE — mobile-first breakpoints layered on top
+   ========================================================= */
+
+/* Large tablets / small laptops */
+@media(max-width:1024px){
+  .wrap{ padding:0 24px; }
+  .contact-box{ padding:44px; }
+  .answers-box{ padding:40px; grid-template-columns:1fr 1.4fr; gap:36px; }
+}
+
+/* Tablets — stack the two-column layouts */
+/* Tablets — stack the two-column layouts */
+@media(max-width:860px){
+  section{ padding:64px 0; }
+  .page-hero{ padding:120px 0 28px; }
+  .hero-grid{ grid-template-columns:1fr; gap:0; }
+  .hero-visual{ order:-1; max-width:280px; margin:0 auto 12px; padding:0; }
+  .hero-visual svg{ max-width:250px; }
+  .page-hero h1{ max-width:100%; }
+  .page-hero p.lead{ max-width:100%; }
+  .breadcrumb{ margin-top:8px; }
+  .pulse-ring{ display:none; } /* pulse rings look bulky on small screens */
+
+  .contact-box{ grid-template-columns:1fr; padding:36px; gap:36px; }
+  .lead-col{ padding-right:0; border-right:none; padding-bottom:32px; border-bottom:1px dashed var(--navy-line); }
+  form{ padding-left:0; }
+
+  .answers-box{ grid-template-columns:1fr; gap:28px; padding:36px; }
+
+  nav{display:none;}
+  .burger{display:flex;}
+
+  .foot-grid{grid-template-columns:1fr 1fr; gap:32px;}
+}
+
+/* Large phones */
+@media(max-width:640px){
+  .wrap{ padding:0 20px; }
+  section{ padding:52px 0; }
+  .page-hero{ padding:100px 0 20px; }
+  .hero-visual{ max-width:260px; margin:0 auto 8px; }
+  .hero-visual svg{ max-width:250px; }
+
+  .trust-row{ grid-template-columns:repeat(2,auto); gap:16px 20px; margin-top:8px; }
+
+  .contact-box{ padding:26px; border-radius:20px; }
+  .form-grid-2{ grid-template-columns:1fr; gap:0; }
+  .reach-card{ padding:15px; gap:13px; }
+
+  .answers-box{ padding:26px; border-radius:20px; }
+  .faq-q{ font-size:14.5px; }
+
+ .hero-grid {
+    display: flex;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 60px;
+    align-items: center;
+    flex-direction: column-reverse;
+}
+}
+
+/* Small phones */
+@media(max-width:420px){
+  .wrap{ padding:0 16px; }
+  .page-hero{ padding:100px 0 20px; }
+  .hero-visual{ max-width:270px; }
+  .hero-visual svg{ max-width:250px; }
+  .page-hero h1{ font-size:26px; }
+  .page-hero p.lead{ font-size:15px; }
+  .trust-row{ grid-template-columns:1fr; gap:14px; }
+  .stat-chip .txt div{ white-space:normal; }
+  .contact-box, .answers-box{ padding:20px; }
+  .lead-col h2, .answers-head h2{ font-size:22px; }
+  header .cta{ display:none; }
+  .hero-grid {
+    display: flex;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 60px;
+    align-items: center;
+    flex-direction: column-reverse;
+}
+}
+</style>
+</head>
+<body>
+
+<header id="siteHeader">
+  <div class="wrap">
+    <a href="index.html" class="logo"><span class="dot"></span>CRO<span style="color:var(--amber)">.STUDIO</span></a>
+    <nav>
+      <ul>
+        <li><a href="cro-audit.html">CRO Audit</a></li>
+        <li><a href="seo-audit.html">SEO Audit</a></li>
+        <li><a href="site-speed-audit.html">Site Speed Audit</a></li>
+        <li><a href="retainers.html">Retainers</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="cta"><a href="contact.html" class="btn">Get Your Audit</a></div>
+    <button class="burger" id="burgerBtn" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="page-hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="breadcrumb reveal"><a href="index.html">Home</a> / Contact</div>
+      <div class="eyebrow reveal">Get in Touch</div>
+      <h1 class="reveal">Let's Grow Your Shopify Store Together</h1>
+      <p class="lead reveal">Whether you're looking to improve your conversion rate, increase organic traffic, optimize your Shopify store's performance, or implement recommendations from a recent audit, our team is here to help.</p>
+
+      <div class="trust-row reveal">
+        <div class="stat-chip">
+          <div class="ic">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f7a400" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          </div>
+          <div class="txt"><strong>36hr</strong><div>Average Response Time</div></div>
+        </div>
+        <div class="stat-chip">
+          <div class="ic">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f7a400" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11.5 14.5 16 9.5"></polyline></svg>
+          </div>
+          <div class="txt"><strong>100%</strong><div>Secure & Confidential</div></div>
+        </div>
+        <div class="stat-chip">
+          <div class="ic">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f7a400" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          </div>
+          <div class="txt"><strong>Shopify Specialists</strong><div>Dedicated Ecommerce Experts</div></div>
+        </div>
+      </div>
+    </div>
+
+	  <div class="hero-visual reveal">
+      <svg viewBox="0 0 420 420" xmlns="http://www.w3.org/2000/svg">
+        <g transform="rotate(-6 100 110)">
+          <rect x="30" y="70" width="150" height="90" rx="16" style="fill:var(--navy-panel-2); stroke:var(--navy-line);"></rect>
+          <circle cx="52" cy="92" r="4" style="fill:var(--amber)"></circle>
+          <rect x="66" y="88" width="60" height="7" rx="3.5" style="fill:rgba(255,255,255,.14)"></rect>
+          <rect x="48" y="112" width="110" height="6" rx="3" style="fill:rgba(255,255,255,.08)"></rect>
+          <rect x="48" y="128" width="80" height="6" rx="3" style="fill:rgba(255,255,255,.08)"></rect>
+        </g>
+        <g transform="rotate(8 320 320)">
+          <rect x="245" y="270" width="130" height="80" rx="16" style="fill:var(--navy-panel-2); stroke:var(--navy-line);"></rect>
+          <rect x="263" y="294" width="94" height="8" rx="4" style="fill:rgba(255,255,255,.10)"></rect>
+          <rect x="263" y="312" width="60" height="8" rx="4" style="fill:rgba(255,255,255,.08)"></rect>
+        </g>
+        <ellipse cx="210" cy="210" rx="150" ry="95" transform="rotate(-18 210 210)" fill="none" style="stroke:var(--navy-line); stroke-width:2; stroke-dasharray:6 8;"></ellipse>
+
+        <circle class="pulse-ring" cx="210" cy="210" r="88" fill="none" stroke="var(--amber)" stroke-width="2"></circle>
+        <circle class="pulse-ring d2" cx="210" cy="210" r="88" fill="none" stroke="var(--amber)" stroke-width="2"></circle>
+
+        <circle cx="210" cy="210" r="88" style="fill:var(--amber)"></circle>
+        <g transform="translate(210,210)">
+          <rect x="-42" y="-30" width="84" height="60" rx="8" fill="#1a1200"></rect>
+          <path d="M-42 -30 L0 8 L42 -30" fill="none" stroke="#f7a400" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
+        </g>
+
+        <circle cx="118" cy="150" r="6" style="fill:var(--amber)"></circle>
+        <circle cx="310" cy="130" r="4" style="fill:rgba(255,255,255,.5)"></circle>
+        <circle cx="298" cy="330" r="4" style="fill:var(--amber)"></circle>
+        <circle cx="120" cy="300" r="5" style="fill:rgba(255,255,255,.35)"></circle>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT FORM ===== -->
+<section class="contact-section">
+  <div class="wrap">
+    <div class="contact-box reveal">
+
+      <div class="lead-col">
+        <h2>Let's Start a Conversation About Your Shopify Store</h2>
+        <div class="underline"></div>
+        <p>Every successful Shopify store starts with understanding what's holding it back.</p>
+
+        <div class="reach-list">
+          <div class="reach-card">
+            <div class="ic">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f7a400" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M22 6l-10 7L2 6"></path></svg>
+            </div>
+            <div>
+              <h4>Email Us</h4>
+              <p>hello@crostudio.example<br>We're here to help.</p>
+            </div>
+          </div>
+
+          <div class="reach-card">
+            <div class="ic">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f7a400" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            </div>
+            <div>
+              <h4>Response Time</h4>
+              <p>Within 36 hours,<br>every business day.</p>
+            </div>
+          </div>
+
+          <div class="reach-card">
+            <div class="ic">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f7a400" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            </div>
+            <div>
+              <h4>Working Hours</h4>
+              <p>Mon – Fri: 9:00 AM – 6:00 PM (EST)<br>We're closed on weekends.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <form onsubmit="event.preventDefault(); this.reset(); alert('Message sent (demo form).');">
+        <div class="form-grid-2">
+          <div class="field"><label>Full Name</label><input type="text" placeholder="Jane Doe" required></div>
+          <div class="field"><label>Work Email</label><input type="email" placeholder="you@store.com" required></div>
+        </div>
+        <div class="field"><label>Shopify Store URL</label><input type="text" placeholder="yourstore.myshopify.com"></div>
+        <div class="field">
+          <label>What are you looking for?</label>
+          <select>
+            <option>CRO Audit</option>
+            <option>SEO Audit</option>
+            <option>Site Speed Audit</option>
+            <option>Retainer / Ongoing Support</option>
+            <option>Something else</option>
+          </select>
+        </div>
+        <div class="field"><label>Project Details</label><textarea rows="4" placeholder="Tell us about your store and your goals..." required></textarea></div>
+        <button class="btn" type="submit">
+          Send Message
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#1a1200" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </button>
+      </form>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== QUICK ANSWERS ===== -->
+<section style="padding-top:0;">
+  <div class="wrap">
+    <div class="answers-box reveal">
+      <div class="answers-head">
+        <div class="eyebrow">Before You Reach Out</div>
+        <h2 class="lead-col">Everything You Need to Know Before Contacting Us</h2>
+        <div class="underline"></div>
+        <p>Choosing the right Shopify growth partner is an important decision. Below are answers to some of the most common questions we receive from ecommerce businesses before starting a project.</p>
+      </div>
+
+      <div class="faq-list">
+        <div class="faq-item reveal">
+          <div class="faq-q">Which Shopify service is right for my business? <span class="plus">+</span></div>
+          <div class="faq-a"><p>If you're unsure where to start, our Shopify CRO Audit is usually the best first step. It provides a complete evaluation of your customer journey, identifies conversion barriers, and often highlights SEO, performance, and usability issues at the same time. From there, we can recommend whether you would benefit from a dedicated SEO Audit, Site Speed Audit, or an ongoing Shopify Growth Retainer.</p></div>
+        </div>
+        <div class="faq-item reveal">
+          <div class="faq-q">Do you only work with Shopify stores? <span class="plus">+</span></div>
+          <div class="faq-a"><p>Yes. We specialize exclusively in Shopify and Shopify Plus. By focusing on a single ecommerce platform, we can provide deeper expertise in conversion optimization, technical SEO, performance improvements, UX optimization, and Shopify development than agencies that work across multiple platforms.</p></div>
+        </div>
+        <div class="faq-item reveal">
+          <div class="faq-q">What happens after I submit the form? <span class="plus">+</span></div>
+          <div class="faq-a"><p>After receiving your enquiry, one of our Shopify specialists reviews your store, your business goals, and the information you've provided. Within approximately 36 business hours, we'll contact you with our recommendations, explain the most suitable service for your requirements, and outline the next steps for moving your project forward.</p></div>
+        </div>
+		 <div class="faq-item reveal">
+          <div class="faq-q">Can you implement the recommendations from my audit? <span class="plus">+</span></div>
+          <div class="faq-a"><p>Absolutely. After completing your Shopify CRO Audit, SEO Audit, or Site Speed Audit, our team can implement every recommendation through one-off development work or one of our monthly Shopify Growth Retainers.</p></div>
+        </div>
+		 <div class="faq-item reveal">
+          <div class="faq-q">Do you work with international Shopify businesses? <span class="plus">+</span></div>
+          <div class="faq-a"><p>Yes. We work with Shopify merchants worldwide, from growing ecommerce startups to established Shopify Plus brands, helping them improve search visibility, website performance, and conversion rates regardless of their location.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="index.html" class="logo" style="margin-bottom:14px;"><span class="dot"></span>CRO<span style="color:var(--amber)">.STUDIO</span></a>
+        <p style="color:var(--text-mid); font-size:14px; max-width:280px;">You might need a decent Shopify CRO partner in the future — let's connect.</p>
+      </div>
+      <div>
+        <h5>Audits</h5>
+        <ul>
+          <li><a href="cro-audit.html">CRO Audit</a></li>
+          <li><a href="seo-audit.html">SEO Audit</a></li>
+          <li><a href="site-speed-audit.html">Site Speed Audit</a></li>
+          <li><a href="retainers.html">Retainers</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="retainers.html">Retainers</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Resources</h5>
+        <ul>
+          <li><a href="index.html#faq">FAQ</a></li>
+          <li><a href="contact.html">Free Quote</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© 2026 CRO.STUDIO. All rights reserved.</div>
+      <div class="socials"><a href="#">in</a><a href="#">ig</a><a href="#">x</a><a href="#">fb</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Header scrolled state
+const header = document.getElementById('siteHeader');
+if (header) {
+  const onScroll = () => {
+    if (window.scrollY > 10) header.classList.add('scrolled');
+    else header.classList.remove('scrolled');
+  };
+  window.addEventListener('scroll', onScroll);
+  onScroll();
+}
+
+// Scroll reveal
+const revealEls = document.querySelectorAll('.reveal');
+if (revealEls.length) {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach((el) => io.observe(el));
+}
+
+// FAQ accordion
+document.querySelectorAll('.faq-item').forEach((item) => {
+  const q = item.querySelector('.faq-q');
+  const a = item.querySelector('.faq-a');
+  if (!q || !a) return;
+  q.addEventListener('click', () => {
+    const isOpen = item.classList.contains('open');
+    item.closest('.faq-list')?.querySelectorAll('.faq-item.open').forEach((openItem) => {
+      if (openItem !== item) {
+        openItem.classList.remove('open');
+        openItem.querySelector('.faq-a').style.maxHeight = null;
+      }
+    });
+    if (isOpen) {
+      item.classList.remove('open');
+      a.style.maxHeight = null;
+    } else {
+      item.classList.add('open');
+      a.style.maxHeight = a.scrollHeight + 'px';
+    }
+  });
+});
+
+// Mobile nav toggle
+const burger = document.getElementById('burgerBtn');
+const nav = document.querySelector('nav');
+if (burger && nav) {
+  burger.addEventListener('click', () => {
+    const isOpen = burger.classList.toggle('open');
+    burger.setAttribute('aria-expanded', String(isOpen));
+    if (isOpen) {
+      nav.style.display = 'flex';
+      nav.style.flexDirection = 'column';
+      nav.style.position = 'fixed';
+      nav.style.top = '64px';
+      nav.style.left = '0';
+      nav.style.right = '0';
+      nav.style.background = 'rgba(14,16,75,0.98)';
+      nav.style.padding = '20px 28px';
+      nav.style.gap = '16px';
+      nav.style.borderBottom = '1px solid var(--navy-line)';
+      nav.querySelector('ul').style.flexDirection = 'column';
+      nav.querySelector('ul').style.gap = '16px';
+    } else {
+      nav.style.display = 'none';
+    }
+  });
+  // Reset nav display handling on resize back to desktop
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 860) {
+      nav.removeAttribute('style');
+      burger.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
+</script>
+</body>
+</html>
